@@ -1,31 +1,27 @@
 import jwt from "jsonwebtoken";
-export async function authToken(req, res, next) {
-  try {
-    const token = req?.cookies?.token;
-    console.log(token, "token from authToken middleware");
+import User from "../Models/UserModel.js";
 
-    if (!token) {
-      return res.json({
-        message: "user not found ",
-        success: false,
-        error: true,
-      });
-    }
+export const protectRoute = async (req, res, next) => {
+	try {
+		const token = req.cookies["jwt-token"];
+		if (!token) {
+			return res.status(401).json({ message: "Unauthorized - No Token Provided" });
+		}
 
-    jwt.verify(token, process.env.TOKEN_SECRET_KEY, function (err, decoded) {
-      console.log(process.env.TOKEN_SECRET_KEY, "token secret key from env");
-      if (err) {
-        console.log("auth err in jwt ", err);
-      }
-      req.userId = decoded?._id;
-      next();
-    });
-  } catch (err) {
-    res.status(400).json({
-      error: true,
-      data: [],
-      message: err.message || err,
-      success: false,
-    });
-  }
-}
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		if (!decoded) {
+			return res.status(401).json({ message: "Unauthorized - Invalid Token" });
+		}
+
+		const user = await User.findById(decoded.userId).select("-password");
+
+		if (!user) {
+			return res.status(401).json({ message: "User not found" });
+		}
+		req.user = user;
+		next();
+	} catch (error) {
+		console.log("Error in protectRoute middleware:", error.message);
+		res.status(500).json({ message: "Internal server error" });
+	}
+};

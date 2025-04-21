@@ -1,32 +1,35 @@
-const userSchema = new mongoose.Schema(
-  {
-    firstname: {
-      type: "string",
-      required: true,
-    },
-    lastname: {
-      type: "string",
-      required: true,
+import mongoose from 'mongoose';
+
+const UserSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
     },
     email: {
-      type: "string",
-      unique: true,
-      required: true,
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
     },
-
     password: {
-      type: "string",
-      unique: true,
-      required: true,
+        type: String,
+        required: true
     },
+    profilePic: {
+        type: String, // URL to the profile picture
+        default: "default-profile.png"
+    },
+    Phone: {
+         type:String
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-    confirmpassword: {
-      type: "string",
-      required: true,
-    },
-    profilePic: "string",
-    role: "string",
-  },
-  { timestamps: true }
-);
-export const userModel = mongoose.model("user", userSchema);
+
+const User = mongoose.model("User",UserSchema);
+export default User;

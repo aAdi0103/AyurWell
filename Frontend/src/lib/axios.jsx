@@ -1,6 +1,7 @@
-import axios from 'axios'
+// src/lib/axios.js
+import axios from "axios";
 
 export const axiosInstance = axios.create({
-	baseURL: import.meta.env.MODE === "development" ? "http://localhost:3000/api/v1" : "/api/v1",
-  withCredentials: true, // to include cookies in the request
-})
+  baseURL: "http://localhost:3000/api/v1", // Adjust as needed
+  withCredentials: true, // 👈 Must be true to send cookies!
+});
