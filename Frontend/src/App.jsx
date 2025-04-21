@@ -2,10 +2,28 @@ import { Routes, Route} from 'react-router-dom'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import { toast, Toaster } from 'react-hot-toast'
-
+import { useQuery } from '@tanstack/react-query'
+import { axiosInstance } from './lib/axios'
 import Homepage from './Layouts/Homepage'
+import LoginPage from './Components/LoginForm';
+import SignPage from './Components/SignForm';
 
 function App() {
+
+  const { data: authUser, isLoading } = useQuery({
+    queryKey: ['authUser'],
+    queryFn: async () => {
+      try {
+        const res = await axiosInstance.get('/auth/me')
+        return res.data
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          return null
+        }
+        toast.error(err.response.data.message || 'Something went wrong')
+      }
+    },
+  })
 
   return (
     <>
@@ -13,6 +31,8 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Homepage/>} />
+        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to={'/'} />}></Route>
+        <Route path="/signup" element={!authUser ? <SignPage /> : <Navigate to={'/'} />} />
       </Routes>
     </>
   )
