@@ -7,7 +7,7 @@ import { axiosInstance } from './lib/axios'
 import Homepage from './Layouts/Homepage'
 import LoginPage from './Components/LoginForm';
 import SignPage from './Components/SignForm';
-
+import Dashboard from './Components/Dashboard';
 function App() {
 
   const { data: authUser, isLoading } = useQuery({
@@ -33,6 +33,7 @@ function App() {
         <Route path="/" element={<Homepage/>} />
         <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to={'/'} />}></Route>
         <Route path="/signup" element={!authUser ? <SignPage /> : <Navigate to={'/'} />} />
+        <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>
     </>
   )
