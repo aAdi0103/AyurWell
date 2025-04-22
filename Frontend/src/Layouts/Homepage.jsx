@@ -19,7 +19,7 @@ const Homepage = () => {
 >
   <div className="logo">
     <img src="https://www.pngarts.com/files/12/Ayurveda-Transparent-Images.png" alt="logo" />
-    <h1>AyuPath</h1>
+    <h1 className='text-xl font-mono'>AyuPath</h1>
   </div>
 
   <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -29,11 +29,10 @@ const Homepage = () => {
   </div>
 
   <div className={`navElements ${menuOpen ? 'show' : ''}`}>
-    <a href="#">Home</a>
+    <a className='text-4xl' href="#">Home</a>
     <a href="#">Features</a>
     <a href="#">Community</a>
     <a href="#">Contact</a>
-    <button>Get</button>
   </div>
 </motion.div>
 
@@ -64,7 +63,7 @@ const Homepage = () => {
               Discover your Dosha. Balance your Life
             </motion.h2>
 
-            <div className="keys">
+            <div className="keys text-xl font-semibold">
               <motion.button
                 id="startBut"
                 whileHover={{ scale: 1.1 }}
