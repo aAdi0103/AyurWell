@@ -2,7 +2,8 @@ import React from "react";
 
 const DashboardMain = () => {
   return (
-    <div className="p-6 bg-[#f5f0e9] min-h-screen text-[#3e3e3e] font-sans">
+   
+   <div className="p-6 bg-[#f5f0e9] min-h-screen text-[#3e3e3e] font-sans">
       <div className="flex items-center justify-between mb-6">
        <div> <h1 className="text-2xl font-bold mb-1">Dashboard</h1>
         <h2 className="text-xl mb-4">Welcome back, Shreyas</h2>
