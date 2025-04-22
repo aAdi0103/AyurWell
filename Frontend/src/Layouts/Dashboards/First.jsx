@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'; // 👈 import
 import SleepTracker from "./Sleeptracker";
 import WaterTracker from "./WaterTracker";
 import DoshaTracker from "./DoshaTracker";
+import Insights from "./Insights";
 const DashboardMain = () => {
   const navigate = useNavigate(); // 👈 initialize navigate
 
@@ -59,10 +60,7 @@ const DashboardMain = () => {
         <WaterTracker/>
 
         {/* Wellness Insights */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2">Wellness Insights</h3>
-          <p className="text-sm text-gray-600">Community Trends deary Geneass selorial outinfo</p>
-        </div>
+      <Insights/>
 
         {/* Community Trends */}
         <div className="bg-white p-4 rounded-xl shadow-sm border">

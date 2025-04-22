@@ -3,7 +3,11 @@ import { motion } from 'framer-motion';
 import './Homepage.css';
 import Page2 from './Page2.jsx'; // Import the Page2 component
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import Page3 from './Dashboards/Page3.jsx'; 
+=======
+import Page3 from './Dashboards/Page3.jsx'; // Import the Page3 component
+>>>>>>> origin/kushagra
 const Homepage = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -101,7 +105,7 @@ const Homepage = () => {
       </div>
    
       <Page2></Page2>
-      <Page3/>
+      <Page3></Page3>
     </div>
   );
 };
