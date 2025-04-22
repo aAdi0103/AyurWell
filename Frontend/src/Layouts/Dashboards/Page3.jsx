@@ -1,25 +1,4 @@
-{/* <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Track Your Wellness</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  />
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-    body {
-      font-family: "Inter", sans-serif;
-    }
-  </style>
-</head> */}
-{/* <body class="bg-[#fff9e9] min-h-screen flex justify-center p-6">
-  <div id="root" class="w-full"></div>
-  <script type="text/babel" src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script type="text/babel" src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script type="text/babel"> */}
+
 import cnt from "../../assets/cnt.png";
   import smile from "../../assets/smile.png";
 import l from "../../assets/l.png";
