@@ -4,11 +4,13 @@ import DoshaProfile from './Dashboards/DoshaProfile'
 import Remedies from './Dashboards/Remedies'
 import DietPlannar from './Dashboards/DietPlannar'
 import Yoga from './Dashboards/Yoga'
+import Quiz from './Dashboards/Quiz'
 import DailyTracker from './Dashboards/DailyTracker'
 
 const DashboardMain = ({ activeSection }) => {
   const renderContent = () => {
     switch (activeSection) {
+      case 'quiz' :return <Quiz/>
       case 'dashboard': return <First />
       case 'dosha-profile': return <DoshaProfile />
       case 'remedies': return <Remedies />
