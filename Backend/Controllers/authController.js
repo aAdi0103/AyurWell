@@ -90,11 +90,23 @@ export const logout = function(req,res){
 	res.json({ message: "Logged out successfully" });
 }
 
-export const getCurrentUser = async (req, res) => {
+export const getUserInfo = async (req, res) => {
 	try {
-		res.json(req.user);
+	  const userId = req.user.userId; // assuming middleware has set req.user
+  
+	  const user = await User.findById(userId).select("-password"); // exclude password
+  
+	  if (!user) {
+		return res.status(404).json({ message: "User not found" });
+	  }
+  
+	  res.status(200).json({ 
+		success: true,
+		user 
+	  });
+  
 	} catch (error) {
-		console.error("Error in getCurrentUser controller:", error);
-		res.status(500).json({ message: "Server error" });
+	  console.error("Error in getUserInfo controller:", error);
+	  res.status(500).json({ message: "Server error" });
 	}
-};
+  };
