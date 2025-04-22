@@ -1,12 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Yoga = () => {
+  const [dosha,setDosha] = useState();
   useEffect(() => {
+
+//     const getUserData= async ()=>{
+// const dosha = axios.get();
+// setDosha(dosha);
+
+//     }
     const fetchYogaData = async () => {
+
       try {
         const res = await axios.post("http://192.168.114.13:5000/get_yoga", {
-          "dosha": "Vata",
+          "dosha": "kapha",
         });
         console.log(res.data); // You can set this to state to dynamically render data
       } catch (error) {
