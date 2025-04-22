@@ -90,6 +90,7 @@ export const logout = function(req,res){
 	res.json({ message: "Logged out successfully" });
 }
 
+
 export const getUserInfo = async (req, res) => {
 	try {
 	  const userId = req.user.userId; // assuming middleware has set req.user
