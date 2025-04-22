@@ -14,6 +14,7 @@ import authRoutes from "./Routes/authRoutes.js";
 import quizeRoutes from "./Routes/quizeRoute.js";
 import update from './Routes/updateRoute.js'
 import sleep from './Routes/sleepRouter.js'
+
 const app = express();
 
 import cors from 'cors'

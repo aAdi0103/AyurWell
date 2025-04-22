@@ -19,15 +19,15 @@ const UserSchema = new mongoose.Schema({
         date: { type: Date, default: Date.now },
         hours: Number
       }
-    ],// in hours
+    ],
     waterIntakeHistory: [
       {
         date: { type: Date, default: Date.now },
         liters: Number
       }
     ],
-    healthGoals: [String], // e.g. ["Weight Loss", "Better Sleep"]
-    quizAnswers: [], // store question-id and answer
+    healthGoals: [String],
+    quizAnswers: [],
     createdAt: { type: Date, default: Date.now }
 });
 

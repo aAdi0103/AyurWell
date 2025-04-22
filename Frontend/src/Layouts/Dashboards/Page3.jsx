@@ -5,7 +5,7 @@ import hrt from "../../assets/hrt.png";
 import rm from "../../assets/rm.png";
 import menimg from "../../assets/menimg.png";
 import icon2 from "../../assets/icon2.png";
-import icon3 from "../../assets/icon3.png";
+
 import leftlogo from "../../assets/leftlogo.png";
 export default function Page3() {
   return (

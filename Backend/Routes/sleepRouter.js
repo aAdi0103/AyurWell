@@ -1,5 +1,5 @@
-// routes/sleep.js
-const express = require('express');
+import express from 'express';
+
 const router = express.Router();
 
 router.get('/sleep-data', (req, res) => {
@@ -14,4 +14,4 @@ router.get('/sleep-data', (req, res) => {
   ]);
 });
 
-module.exports = router;
+export default  router;
