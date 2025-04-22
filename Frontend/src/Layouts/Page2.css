@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.page2 {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.bodyType {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 20px;
+    background-color: #FFF6E9;
+    gap: 100px;
+    
+}
+
+.bodyType h1 {
+    font-size: 2.5rem;
+    color: black;
+    flex: 1 1 100%;
+    margin-left: 30px;
+}
+
+.bodyType span {
+    font-size: 1.5rem;
+    display: block;
+    margin-top: 10px;
+    color: #ec1313;
+}
+
+.cir {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease;
+}
+.cir:hover {
+    transform: scale(1.1);
+}
+
+.gola {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.gola img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.cir h3 {
+    font-size: 1.5rem;
+    color: #444;
+}
+
+.features {
+    padding: 50px 20px;
+    background-color: #FFFEF4;
+}
+
+.features h1 {
+    font-size: 2.5rem;
+    color: #8f8787;
+    margin-left: 30px;
+    margin-bottom: 40px;
+}
+
+.allcards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.card {
+    width: 280px;
+    padding: 25px;
+    background-color: #fef6e9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: #f7e3b2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    margin: 10px 0;
+    color: #222;
+}
+
+.card h3 {
+    font-size: 1rem;
+    color: #666;
+    font-weight: normal;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .bodyType {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .features .card {
+        width: 90%;
+    }
+}
