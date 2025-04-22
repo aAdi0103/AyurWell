@@ -1,6 +1,5 @@
 import User from "../Models/UserModel.js";
-import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
+
   
 
 export const sleep = async (req, res) => {

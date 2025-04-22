@@ -51,6 +51,7 @@ export const signup = async (req, res) => {
 export const login = async function(req,res){
     try {
 		const {email, password } = req.body;
+		console.log(email,password);
 
 		if (!email ||!password) {
 			return res.status(400).json({ message: "All fields are required" });
@@ -85,29 +86,18 @@ export const login = async function(req,res){
 	}
 }
 
+
 export const logout = function(req,res){
     res.clearCookie('jwt-token');
 	res.json({ message: "Logged out successfully" });
 }
 
 
-export const getUserInfo = async (req, res) => {
+export const getCurrentUser = async (req, res) => {
 	try {
-	  const userId = req.user.userId; // assuming middleware has set req.user
-  
-	  const user = await User.findById(userId).select("-password"); // exclude password
-  
-	  if (!user) {
-		return res.status(404).json({ message: "User not found" });
-	  }
-  
-	  res.status(200).json({ 
-		success: true,
-		user 
-	  });
-  
+		res.json(req.user);
 	} catch (error) {
-	  console.error("Error in getUserInfo controller:", error);
-	  res.status(500).json({ message: "Server error" });
+		console.error("Error in getCurrentUser controller:", error);
+		res.status(500).json({ message: "Server error" });
 	}
-  };
+};

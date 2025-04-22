@@ -12,7 +12,8 @@ import { connectDB } from "./Lib/db.js";
 import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/authRoutes.js";
 import quizeRoutes from "./Routes/quizeRoute.js";
-import update from './Routes/update.js'
+import update from './Routes/updateRoute.js'
+import sleep from './Routes/sleepRouter.js'
 const app = express();
 
 import cors from 'cors'
@@ -33,6 +34,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/update", update);
 app.use("/api/v1/quize", quizeRoutes);
+app.use("/api/v1/sleep",sleep)
 
 
 
