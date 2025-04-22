@@ -91,7 +91,7 @@ const LoginForm = () => {
 
       <p className="text-center text-sm text-[#6f5e42]">
         Already have an account?{' '}
-        <a href="/login" className="font-semibold text-green-600 hover:underline">
+        <a href="/signup" className="font-semibold text-green-600 hover:underline">
           Sign In
         </a>
       </p>

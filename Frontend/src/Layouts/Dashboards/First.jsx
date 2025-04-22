@@ -6,6 +6,8 @@ import SleepTracker from "./Sleeptracker";
 import WaterTracker from "./WaterTracker";
 import DoshaTracker from "./DoshaTracker";
 import Insights from "./Insights";
+import { useQuery } from '@tanstack/react-query'
+
 const DashboardMain = () => {
   const navigate = useNavigate(); // 👈 initialize navigate
 
@@ -20,12 +22,28 @@ const DashboardMain = () => {
     },
   });
 
+  const { data: authUser, isLoading } = useQuery({
+    queryKey: ['authUser'],
+    queryFn: async () => {
+      try {
+        const res = await axiosInstance.get('/auth/me')
+        return res.data
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          return null
+        }
+        toast.error(err.response?.data?.message || 'Something went wrong')
+      }
+    },
+  })
+  console.log(authUser)
+
   return (
     <div className="p-4 bg-[#f5f0e9] min-h-screen text-[#3e3e3e] font-sans">
       <div className="flex p-2 items-center justify-between mb-2">
         <div>
           <h1 className="text-2xl font-bold mb-1">Dashboard</h1>
-          <h2 className="text-xl mb-4">Welcome back, Shreyas</h2>
+          <h2 className="text-xl mb-4">Welcome back, {authUser.name}</h2>
           <button
             onClick={logout}
             className="block w-full px-3 py-2 text-left font-bold text-red-600 hover:bg-red-100"
