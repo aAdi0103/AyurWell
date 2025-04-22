@@ -8,6 +8,8 @@ import Homepage from './Layouts/Homepage'
 import LoginPage from './Components/LoginForm';
 import SignPage from './Components/SignForm';
 import Dashboard from './Components/Dashboard';
+import Page3 from './Layouts/Dashboards/Page3';
+import Yoga from './Layouts/Dashboards/Yoga';
 function App() {
 
   const { data: authUser, isLoading } = useQuery({
@@ -35,6 +37,7 @@ function App() {
         <Route path="/signup" element={!authUser ? <SignPage /> : <Navigate to={'/'} />} />
         <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>
+    
     </>
   )
 }

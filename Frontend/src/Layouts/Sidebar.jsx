@@ -11,7 +11,9 @@ import {
   } from "lucide-react";
   
   const menuItems = [
+
     { label: "Dashboard", icon: <LayoutDashboard />, section: "dashboard" },
+    {label:"Quiz" ,icon:<BarChart3/> ,section :"quiz"},
     { label: "My Dosha Profile", icon: <HeartPulse />, section: "dosha-profile" },
     { label: "Remedies & Treatments", icon: <Leaf />, section: "remedies" },
     { label: "Diet Planner", icon: <Salad />, section: "diet-planner" },
