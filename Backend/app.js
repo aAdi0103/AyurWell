@@ -11,6 +11,8 @@ import express from "express";
 import { connectDB } from "./Lib/db.js";
 import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/authRoutes.js";
+
+
 import update from "./Routes/updateRoute.js";
 const app = express();
 
