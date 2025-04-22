@@ -11,7 +11,7 @@ const DashboardMain = () => {
          <div className="bg-black p-4 rounded-xl shadow-sm border">
   <h3 className="font-semibold mb-2 text-white">Challenge Progress</h3>
   <p className="text-orange-700">5 Days into No Sugar Challenges</p>
-</div>
+             </div>
 
 
       </div>
@@ -25,67 +25,46 @@ const DashboardMain = () => {
         <button className="text-xl">{">"}</button>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Dosha Balance */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2">Dosha Balance</h3>
-          <div className="w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center">
-            Radar Chart Placeholder
-          </div>
-        </div>
+      <div className="grid lg:grid-cols-2 gap-6">
+  {/* Dosha Balance */}
+  <div className="bg-white p-4 rounded-xl shadow-sm border">
+    <h3 className="font-semibold mb-2">Dosha Balance</h3>
+    <div className="w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+      Radar Chart Placeholder
+    </div>
+  </div>
 
-        {/* Sleep Tracker */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2">Sleep Tracker</h3>
-          <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-            Bar Chart Placeholder
-          </div>
-        </div>
+  {/* Sleep Tracker */}
+  <div className="bg-white p-4 rounded-xl shadow-sm border">
+    <h3 className="font-semibold mb-2">Sleep Tracker</h3>
+    <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
+      Bar Chart Placeholder
+    </div>
+  </div>
 
-        {/* Steps Tracker */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2">Steps Tracker</h3>
-          <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-            Bar Chart Placeholder
-          </div>
-        </div>
+  {/* Water Intake */}
+  <div className="bg-white p-4 rounded-xl shadow-sm border">
+    <h3 className="font-semibold mb-2">Sleep Tracker</h3>
+    <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
+      Bar Chart Placeholder
+    </div>
+  </div>
 
+  {/* Wellness Insights */}
+  <div className="bg-white p-4 rounded-xl shadow-sm border">
+    <h3 className="font-semibold mb-2">Wellness Insights</h3>
+    <p className="text-sm text-gray-600">Community Trends deary Geneass selorial outinfo</p>
+  </div>
 
-        {/* Water Intake */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border flex justify-between items-center gap-4">
-          <div>
-            <h3 className="font-semibold mb-2">Water Intake</h3>
-            <p className="text-sm text-gray-500">Sleep</p>
-            <p className="text-2xl font-bold text-blue-600">82%</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500">Food Intake</p>
-            <p className="text-2xl font-bold text-green-600">82</p>
-          </div>
-        </div>
+  {/* Community Trends */}
+  <div className="bg-white p-4 rounded-xl shadow-sm border">
+    <h3 className="font-semibold mb-2">Community Trends Nearby</h3>
+    <p className="text-sm text-gray-600">Users in your area are reporting heat rashes</p>
+  </div>
 
+ 
+</div>
 
-        {/* Wellness Insights */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2">Wellness Insights</h3>
-          <p className="text-sm text-gray-600">Community Trends deary Geneass selorial outinfo</p>
-        </div>
-
-        {/* Community Trends */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2">Community Trends Nearby</h3>
-          <p className="text-sm text-gray-600">Users in your area are reporting heat rashes</p>
-        </div>
-
-        {/* Wellness Insight 2 */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border flex justify-between items-center">
-          <div>
-            <h3 className="font-semibold mb-1">Wellness Insights</h3>
-            <p className="text-sm">It’s Pitta season. Add more cooling foods to your diet.</p>
-          </div>
-          <div className="text-3xl">🥬</div>
-        </div>
-      </div>
     </div>
   );
 };

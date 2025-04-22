@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import './Homepage.css';
 import Page2 from './Page2.jsx'; // Import the Page2 component
+import { Link } from "react-router-dom";
 
 const Homepage = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -63,23 +64,29 @@ const Homepage = () => {
               Discover your Dosha. Balance your Life
             </motion.h2>
 
-            <div className="keys text-xl font-semibold">
-              <motion.button
-                id="startBut"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                Get Started
-              </motion.button>
 
-              <motion.button
-                id="quizeBut"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                Take Dosha Quiz
-              </motion.button>
-            </div>
+<div className="keys text-xl font-semibold">
+  <Link to="/login">
+    <motion.button
+      id="startBut"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+    >
+      Get Started
+    </motion.button>
+  </Link>
+
+  <Link to="/quiz">
+    <motion.button
+      id="quizeBut"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+    >
+      Take Dosha Quiz
+    </motion.button>
+  </Link>
+</div>
+
           </div>
 
           <motion.div

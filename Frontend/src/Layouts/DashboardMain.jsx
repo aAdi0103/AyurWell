@@ -4,7 +4,7 @@ import DoshaProfile from './Dashboards/DoshaProfile'
 import Remedies from './Dashboards/Remedies'
 import DietPlannar from './Dashboards/DietPlannar'
 import Yoga from './Dashboards/Yoga'
-
+import DailyTracker from './Dashboards/DailyTracker'
 
 const DashboardMain = ({ activeSection }) => {
   const renderContent = () => {
@@ -14,6 +14,7 @@ const DashboardMain = ({ activeSection }) => {
       case 'remedies': return <Remedies />
       case 'diet-planner': return <DietPlannar />
       case 'yoga': return <Yoga />
+      case 'tracker': return <DailyTracker />
       default: return <div>Select a section</div>
     }
   }

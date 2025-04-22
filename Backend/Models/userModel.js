@@ -17,6 +17,19 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    sleepDuration: [
+        {
+          date: { type: Date, default: Date.now },
+          hours: Number
+        }
+      ],// in hours
+      waterIntakeHistory: [
+        {
+          date: { type: Date, default: Date.now },
+          liters: Number
+        }
+      ],
+  
     profilePic: {
         type: String, // URL to the profile picture
         default: "default-profile.png"
