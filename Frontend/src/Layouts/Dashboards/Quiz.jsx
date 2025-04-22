@@ -107,7 +107,7 @@ const Quiz = () => {
         {step === 1 && (
           <div className="space-y-6">
             <label className="block text-lg">Age Group:</label>
-            <select name="ageGroup" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="ageGroup" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>18–25</option>
               <option>26–35</option>
               <option>36–50</option>
@@ -115,7 +115,7 @@ const Quiz = () => {
             </select>
 
             <label className="block text-lg">Sex:</label>
-            <select name="sex" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="sex" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Male</option>
               <option>Female</option>
               <option>Other / Prefer not to say</option>
@@ -126,7 +126,7 @@ const Quiz = () => {
               name="location"
               type="text"
               onChange={handleChange}
-              className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         )}
@@ -134,42 +134,42 @@ const Quiz = () => {
         {step === 2 && (
           <div className="space-y-6">
             <label className="block text-lg">Body Frame:</label>
-            <select name="bodyFrame" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="bodyFrame" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Lean and light</option>
               <option>Medium and muscular</option>
               <option>Broad and stocky</option>
             </select>
 
             <label className="block text-lg">Skin Type:</label>
-            <select name="skinType" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="skinType" onChange={handleChange} className="w-full border border-black  rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Dry and rough</option>
               <option>Sensitive or acne-prone</option>
               <option>Oily and moist</option>
             </select>
    
             <label className="block text-lg">Hair Type:</label>
-            <select name="hairType" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="hairType" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Thin, dry, and frizzy</option>
               <option>Soft, fine, may turn grey early</option>
               <option>Thick, oily, and dense</option>
             </select>
 
             <label className="block text-lg">Digestive Pattern:</label>
-            <select name="digestivePattern" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="digestivePattern" onChange={handleChange} className="w-full border border-black  rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Irregular (bloating, gas, sometimes constipated)</option>
               <option>Strong and fast (frequent hunger, acid reflux)</option>
               <option>Slow and heavy (sluggish after eating, feels full quickly)</option>
             </select>
 
             <label className="block text-lg">Daily Energy:</label>
-            <select name="energy" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="energy" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Comes in bursts; can tire quickly</option>
               <option>Steady and intense but drains fast</option>
               <option>Consistent but slow to start</option>
             </select>
 
             <label className="block text-lg">Sleep:</label>
-            <select name="sleep" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="sleep" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Light sleeper, wakes easily</option>
               <option>Short but deep sleep</option>
               <option>Long and heavy sleeper</option>
@@ -180,7 +180,7 @@ const Quiz = () => {
         {step === 3 && (
           <div className="space-y-6">
             <label className="block text-lg">Emotional State:</label>
-            <select name="emotion" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="emotion" onChange={handleChange} className="w-full border border-black  rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Anxious, restless, uncertain</option>
               <option>Irritable, competitive, impatient</option>
               <option>Calm but sometimes lazy or unmotivated</option>
@@ -195,7 +195,7 @@ const Quiz = () => {
             />
 
             <label className="block text-lg">Physical Activity:</label>
-            <select name="exercise" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="exercise" onChange={handleChange} className="w-full border border-black  rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Rarely</option>
               <option>1–3 days a week</option>
               <option>4–6 days a week</option>
@@ -203,14 +203,14 @@ const Quiz = () => {
             </select>
 
             <label className="block text-lg">Diet:</label>
-            <select name="diet" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="diet" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Mostly processed/irregular meals</option>
               <option>Balanced with some unhealthy items</option>
               <option>Very mindful, fresh, and seasonal food</option>
             </select>
 
             <label className="block text-lg">Main Health Goal:</label>
-            <select name="goal" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="goal" onChange={handleChange} className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>Improve digestion & energy</option>
               <option>Balance mood/stress</option>
               <option>Improve skin/hair</option>
@@ -228,11 +228,11 @@ const Quiz = () => {
               name="conditions"    
               type="text"
               onChange={handleChange}
-              className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             <label className="block text-lg">Food Allergies:</label>
-            <select name="allergies" onChange={handleChange} className="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select name="allergies" onChange={handleChange} className="w-full border border-black  rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option>No</option>
               <option>Yes</option>
             </select>

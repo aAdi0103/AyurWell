@@ -8,20 +8,20 @@ const DailyTracker = () => {
   const [sleep, setSleep] = useState('')
   const [water, setWater] = useState('')
 
-  const { mutate: submitData, isLoading } = useMutation({
-    mutationFn: async (data) => {
-      const res = await axiosInstance.post('/update/sleep', data)
-      return res.data
-    },
-    onSuccess: () => {
-      toast.success('Daily data submitted!')
-      setSleep('')
-      setWater('')
-    },
-    onError: (err) => {
-      toast.error(err.response?.data?.message || 'Something went wrong')
-    },
-  })
+  // const { mutate: submitData, isLoading } = useMutation({
+  //   mutationFn: async (data) => {
+  //     const res = await axiosInstance.post('/update/sleep', data)
+  //     return res.data
+  //   },
+  //   onSuccess: () => {
+  //     toast.success('Daily data submitted!')
+  //     setSleep('')
+  //     setWater('')
+  //   },
+  //   onError: (err) => {
+  //     toast.error(err.response?.data?.message || 'Something went wrong')
+  //   },
+  // })
 
   const handleSubmit = (e) => {
     e.preventDefault()

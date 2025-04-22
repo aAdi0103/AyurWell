@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken"
 export const signup = async (req, res) => {
 	try {
 		const { name, email, password } = req.body;
-
+console.log(req.body);
 		// Validate required fields
 		if (!name || !email || !password) {
 			return res.status(400).json({ message: "All fields including location (area, city, state, country) are required" });
@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
 			password: hashedPassword,
 		});
 		await user.save();
-
+console.log(user);
 		// Generate JWT Token
 		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "3d" });
 
@@ -35,11 +35,15 @@ export const signup = async (req, res) => {
 		res.cookie("jwt-token", token, {
 			httpOnly: true,
 			maxAge: 3 * 24 * 60 * 60 * 1000,
-			sameSite: "strict",
+			sameSite: "None",
 			secure: process.env.NODE_ENV === "production",
 		});
 
-		res.status(201).json({ message: "User registered successfully" });
+		res.status(201).json({ 
+			data:user,
+			token:token,
+			 success: true,
+			message: "User registered successfully" });
 
 	} catch (error) {
 		console.log("Error in signup:", error.message);
@@ -57,7 +61,8 @@ export const login = async function(req,res){
 			return res.status(400).json({ message: "All fields are required" });
 		}
 		
-		let currUser = await User.findOne({ email});
+		let currUser = await User.findOne({email});
+		
 		if(!currUser){
 			return res.status(401).json({ message: "Invalid credentials" });
 
@@ -65,20 +70,23 @@ export const login = async function(req,res){
 
 		const matchPassword = await bcrypt.compare(password,currUser.password);
 		if(!matchPassword){
-			return res.status(401).json({ message: "Invalid credentials" });
+			return res.status(401).json({ message: "Please Enter Valid Password" });
 		}
 
 
 		const token = jwt.sign({ userId: currUser._id }, process.env.JWT_SECRET, { expiresIn: "3d" });
-
-		await res.cookie("jwt-token", token, {
+		 
+		 res.cookie("jwt-token", token, {
 			httpOnly: true, // prevent XSS attack
 			maxAge: 3 * 24 * 60 * 60 * 1000,
-			sameSite: "strict", // prevent CSRF attacks,
+			sameSite: "None", // prevent CSRF attacks,
 			secure: process.env.NODE_ENV === "production", // prevents man-in-the-middle attacks
 		});
-
-		res.json({ message: "User loggedIN successfully" });
+console.log("cookie set successfully");
+		res.json({
+			data:currUser,
+			token:token,
+			 message: "Welcome Back" });
 
 	} catch (error) {
 		console.log("Error in login: ", error.message);
