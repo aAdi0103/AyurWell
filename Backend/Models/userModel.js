@@ -1,33 +1,22 @@
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
+    name: String,
+    email: { type: String, unique: true },
+    password: String,
+    age: Number,
+    gender: String,
+    location: String,
+    language: String,
+    prakriti: String, // E.g., "Vata", "Pitta", "Kapha", or combination
+    doshaProfile: {
+      vata: Number,
+      pitta: Number,
+      kapha: Number
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-        trim: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    profilePic: {
-        type: String, // URL to the profile picture
-        default: "default-profile.png"
-    },
-    Phone: {
-         type:String
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    healthGoals: [String], // e.g. ["Weight Loss", "Better Sleep"]
+    quizAnswers: [], // store question-id and answer
+    createdAt: { type: Date, default: Date.now }
 });
 
 
