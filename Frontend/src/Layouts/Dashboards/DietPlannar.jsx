@@ -19,11 +19,6 @@ const DietPlanner = () => {
 
   const fetchDietPlans = async () => {
     try {
-      // Uncomment below when backend API is ready
-      // const res = await axios.get('/api/diet');
-      // setDietPlans(res.data);
-
-      // Demo data:
       setDietPlans([
         {
           userId: "user123",

@@ -1,4 +1,4 @@
-import User from "../Models/UserModel.js";
+import User from "../Models/userModel.js";
 
 export const sleep = async (req, res) => {
   try {

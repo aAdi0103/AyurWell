@@ -15,7 +15,7 @@ import quizeRoutes from "./Routes/quizeRoute.js";
 import update from './Routes/updateRoute.js'
 import sleep from './Routes/sleepRouter.js'
 import water from './Routes/waterRouter.js'
-
+import dosha from './Routes/doshaRouter.js'
 const app = express();
 
 import cors from 'cors'
@@ -37,6 +37,8 @@ app.use("/api/v1/update", update);
 app.use("/api/v1/quize", quizeRoutes);
 app.use("/api/v1/sleep-data",sleep)
 app.use("/api/v1/water",water)
+app.use("/api/v1/dosha-profile",dosha)
+
 
 
 
