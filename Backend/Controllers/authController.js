@@ -53,7 +53,6 @@ export const signup = async (req, res) => {
 export const login = async function(req,res){
     try {
 		const {email, password } = req.body;
-		console.log(email,password);
 
 		if (!email ||!password) {
 			return res.status(400).json({ message: "All fields are required" });
@@ -73,8 +72,6 @@ export const login = async function(req,res){
 
 
 		const token = jwt.sign({ userId: currUser._id }, process.env.JWT_SECRET, { expiresIn: "3d" });
-
-		console.log(token);
 		
 		
 		 res.cookie("jwt-token", token, {

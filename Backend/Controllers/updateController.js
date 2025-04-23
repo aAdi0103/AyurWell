@@ -1,12 +1,10 @@
 import User from "../Models/UserModel.js";
 
   
-
 export const sleep = async (req, res) => {
   try {
     const userId = req.user // assuming auth middleware adds this
     const { sleep, water } = req.body
-    console.log(sleep,water,userId);
 
     if (!sleep || !water) {
       return res.status(400).json({ message: 'Both sleep and water intake are required.' })

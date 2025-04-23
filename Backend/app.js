@@ -14,6 +14,7 @@ import authRoutes from "./Routes/authRoutes.js";
 import quizeRoutes from "./Routes/quizeRoute.js";
 import update from './Routes/updateRoute.js'
 import sleep from './Routes/sleepRouter.js'
+import water from './Routes/waterRouter.js'
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/update", update);
 app.use("/api/v1/quize", quizeRoutes);
 app.use("/api/v1/sleep-data",sleep)
+app.use("/api/v1/water",water)
 
 
 
