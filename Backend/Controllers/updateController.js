@@ -1,4 +1,4 @@
-import User from "../Models/UserModel.js";
+import User from "../Models/userModel.js";
 
 export const sleep = async (req, res) => {
   try {
@@ -112,5 +112,38 @@ export const quizeResponse = async (req, res) => {
   } catch (error) {
     console.error('Error updating quiz response:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+export const updateDiet = async (req, res) => {
+  const userId = req.user; // Assuming the auth middleware adds the user ID to the request
+  const { diet } = req.body; // Destructure diet from the request body
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update the diet_plan with the provided diet
+    user.diet_plan = {
+      breakfast: diet.breakfast,
+      dinner: diet.dinner,
+      food_to_avoid: diet.food_to_avoid,
+      food_to_prefer: diet.food_to_prefer,
+      insights: diet.insights,
+    };
+
+    // Save the updated user
+    await user.save();
+
+    // Return a success response
+    res.status(200).json({ message: 'Diet updated successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating diet', error });
   }
 };
