@@ -1,4 +1,4 @@
-import User from "../Models/UserModel.js";
+import User from "../Models/userModel.js";
 
 export const creatingQuize = async function(req, res) {
     try {

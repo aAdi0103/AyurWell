@@ -105,3 +105,27 @@ export const getCurrentUser = async (req, res) => {
 		res.status(500).json({ message: "Server error" });
 	}
 };
+
+
+export const getDietPlans = async(req,res)=>{
+	try {
+		const userId = req.user.id; // Assuming the user ID is available in req.user
+	
+		// Fetch the user's diet plans from the database
+		const user = await User.findById(userId).select('dietPlans');
+	
+		if (!user) {
+		  return res.status(404).json({ message: 'User not found' });
+		}
+	
+		if (!user.dietPlans || user.dietPlans.length === 0) {
+		  return res.status(404).json({ message: 'No diet plans found for this user.' });
+		}
+	
+		res.status(200).json(user.dietPlans); // Send diet plans in the response
+	  } catch (err) {
+		console.error('Error fetching diet plans:', err.message);
+		res.status(500).json({ message: 'Server error while fetching diet plans.' });
+	  }
+
+}
