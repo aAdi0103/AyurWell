@@ -1,29 +1,14 @@
 import React, { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { axiosInstance } from '../../lib/axios'
 import { toast } from 'react-hot-toast'
+import { axiosInstance } from '../../lib/axios'
 import { Loader } from 'lucide-react'
 
 const DailyTracker = () => {
   const [sleep, setSleep] = useState('')
   const [water, setWater] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { mutate: submitData, isLoading } = useMutation({
-    mutationFn: async (data) => {
-      const res = await axiosInstance.post('/update/sleep', data)
-      return res.data
-    },
-    onSuccess: () => {
-      toast.success('Daily data submitted!')
-      setSleep('')
-      setWater('')
-    },
-    onError: (err) => {
-      toast.error(err.response?.data?.message || 'Something went wrong')
-    },
-  })
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!sleep || !water) {
@@ -31,10 +16,22 @@ const DailyTracker = () => {
       return
     }
 
-    submitData({
-      sleep: parseFloat(sleep),
-      water: parseFloat(water),
-    })
+    setIsLoading(true)
+
+    try {
+      const res = await axiosInstance.post('/update/sleep', {
+        sleep: parseFloat(sleep),
+        water: parseFloat(water),
+      })
+
+      toast.success('Daily data submitted!')
+      setSleep('')
+      setWater('')
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Something went wrong')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

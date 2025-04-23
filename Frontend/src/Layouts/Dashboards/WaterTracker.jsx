@@ -38,7 +38,7 @@ const WaterTracker = () => {
   return (
     <div className="bg-white p-4 rounded-xl shadow-sm border">
       <h3 className="font-semibold mb-2">Water Tracker</h3>
-      <div className="h-60 w-[30vw] bg-gray-100 rounded-lg flex items-center justify-center">
+      <div className="h-[65vh] w-[30vw] bg-gray-100 rounded-lg flex items-center justify-center">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={waterData}

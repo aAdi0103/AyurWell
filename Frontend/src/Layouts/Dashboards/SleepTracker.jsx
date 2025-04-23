@@ -15,7 +15,7 @@ const SleepTracker = () => {
   useEffect(() => {
     const fetchSleepData = async () => {
       try {
-        const res = await axiosInstance.get("/api/sleep-data");
+        const res = await axiosInstance.get("/sleep-data");
         setSleepData(res.data);
       } catch (error) {
         console.error("Failed to fetch sleep data:", error);
