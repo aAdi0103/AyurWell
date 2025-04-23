@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useEffect } from 'react';
+import { axiosInstance } from '../../lib/axios';
 
 const CheckboxGroup = ({ label, name, options, formData, setFormData }) => {
   const handleCheckboxChange = (e) => {
@@ -38,6 +40,34 @@ const CheckboxGroup = ({ label, name, options, formData, setFormData }) => {
 const Quiz = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
+  const [ resp ,setResp] = useState({});
+
+  useEffect(() => {
+
+    const updateQuizResponse = async () => {
+      if (!resp) return; // Don't make API call if `resp` is empty or undefined
+
+      try {
+        
+
+        // POST request to /update/quizerepsosen
+        const res = await axiosInstance.post('/update/quizeResponse', {
+          data: resp, // Send `resp` as the request body
+        });
+
+        console.log(res.data+" Quiz response updated successfully");
+        
+       
+      } catch (err) {
+        
+        console.error(err);
+      } 
+    };
+
+    updateQuizResponse();
+
+
+  },[resp])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,7 +86,9 @@ const Quiz = () => {
           'Content-Type': 'application/json'
         }
       });
-      console.log('Response:', response.data);
+      console.log(response.data);
+      
+      setResp(response.data);
       alert("Quiz submitted successfully!");
     } catch (error) {
       console.error('Submission error:', error);
