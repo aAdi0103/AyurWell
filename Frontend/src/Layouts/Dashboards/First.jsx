@@ -1,16 +1,16 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import { axiosInstance } from '../../lib/axios';
-import { useNavigate } from 'react-router-dom'; // 👈 import
+import { useNavigate } from 'react-router-dom';
 import SleepTracker from "./SleepTracker";
 import WaterTracker from "./WaterTracker";
 import DoshaTracker from "./DoshaTracker";
 import Insights from "./Insights";
- import { useAuth } from "../../Context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
+import { toast } from 'react-toastify';
+
 const DashboardMain = () => {
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
-console.log(authUser,"authUser");
 
   const handleLogout = async () => {
     try {
@@ -22,7 +22,27 @@ console.log(authUser,"authUser");
     }
   };
 
+  const suggestions = [
+    "Try a cup of Trikatu tea at night to help with your sluggish digestion.",
+    "Start your day with warm water and lemon to stimulate digestion.",
+    "Avoid cold drinks during meals to keep your digestive fire strong.",
+    "Practice deep breathing for 5 minutes to reduce stress-related cravings.",
+    "Chew your food thoroughly to aid in better digestion and nutrient absorption.",
+    "Incorporate turmeric in your meals to reduce inflammation.",
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % suggestions.length);
+    }, 3000); // change tip every 12 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   if (!authUser) return <div>Loading or Unauthorized...</div>;
+
   return (
     <div className="p-4 bg-[#f5f0e9] min-h-screen text-[#3e3e3e] font-sans">
       <div className="flex p-2 items-center justify-between mb-2">
@@ -36,7 +56,7 @@ console.log(authUser,"authUser");
             Logout
           </button>
         </div>
-        {/* Challenge Progress */}
+
         <div className="bg-black p-3 rounded-xl shadow-sm border">
           <h3 className="font-semibold mb-2 text-white">Challenge Progress</h3>
           <p className="text-orange-700">5 Days into No Sugar Challenges</p>
@@ -44,28 +64,22 @@ console.log(authUser,"authUser");
       </div>
 
       {/* Suggestion Card */}
-      <div className="bg-[#fef3e7] border border-[#e0d5c2] rounded-xl p-4 flex items-center justify-between mb-3">
+      <div className="bg-[#fef3e7] border border-[#e0d5c2] rounded-xl p-4 flex items-center justify-between mb-3 transition-all duration-500 ease-in-out">
         <div className="flex flex-col gap-2">
-          <p className="font-bold">Today's Tip</p>
+          <p className="font-bold text-orange-900">Today's Tip</p>
           <div className="flex items-center gap-3">
-          <div className="bg-orange-200 p-1 rounded-full">🧘</div>
-          <p>Try a cup of Trikatu tea at night to help with your sluggish digestion.</p>
+            <div className="bg-orange-200 p-1 rounded-full">🧘</div>
+            <p className="text-gray-800 transition-opacity duration-500">{suggestions[currentIndex]}</p>
           </div>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* Dosha Balance */}
-      <DoshaTracker/>
-
-        {/* Sleep Tracker */}
+        <DoshaTracker />
         <SleepTracker />
-        <WaterTracker/>
+        <WaterTracker />
+        <Insights />
 
-        {/* Wellness Insights */}
-      <Insights/>
-
-        {/* Community Trends */}
         <div className="bg-white p-4 rounded-xl shadow-sm border">
           <h3 className="font-semibold mb-2">Community Trends Nearby</h3>
           <p className="text-sm text-gray-600">Users in your area are reporting heat rashes</p>

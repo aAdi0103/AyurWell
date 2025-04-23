@@ -10,6 +10,7 @@ const DietPlanner = () => {
     diseases: '',
     goals: '',
     duration: '',
+    dosha: '',
   });
 
   useEffect(() => {
@@ -25,15 +26,14 @@ const DietPlanner = () => {
       // Demo data:
       setDietPlans([
         {
-          
-            userId: "user123",
-            diseases: ["Diabetes"],
-            goals: ["Weight Loss"],
-            duration: "30 Days",
-            foodToFavor: ["Leafy greens", "Whole grains", "Lean proteins"],
-            foodToAvoid: ["Sugary drinks", "Refined carbs", "Processed snacks"],
-            recommendations: "Follow a low-carb diet with consistent meal timing. Monitor glucose regularly."
-          
+          userId: "user123",
+          diseases: ["Diabetes"],
+          goals: ["Weight Loss"],
+          duration: "30 Days",
+          dosha: "Pitta",
+          foodToFavor: ["Leafy greens", "Whole grains", "Lean proteins"],
+          foodToAvoid: ["Sugary drinks", "Refined carbs", "Processed snacks"],
+          recommendations: "Follow a low-carb diet with consistent meal timing. Monitor glucose regularly."
         },
       ]);
     } catch (err) {
@@ -51,12 +51,13 @@ const DietPlanner = () => {
         diseases: formData.diseases.split(',').map((d) => d.trim()),
         goals: formData.goals.split(',').map((g) => g.trim()),
         duration: formData.duration,
+        dosha: formData.dosha,
       };
 
       await axios.post('/api/diet', formattedData);
       alert("Diet plan submitted!");
       setShowForm(false);
-      setFormData({ diseases: '', goals: '', duration: '' });
+      setFormData({ diseases: '', goals: '', duration: '', dosha: '' });
       fetchDietPlans();
     } catch (err) {
       console.error("Error submitting plan:", err);
@@ -78,45 +79,45 @@ const DietPlanner = () => {
       </div>
 
       {!showForm && (
-  <div className="space-y-6">
-    {dietPlans.length > 0 ? (
-      dietPlans.map((plan, idx) => (
-        <div key={idx} className="bg-gray-100 p-6 rounded-xl border shadow space-y-4">
-          <h4 className="text-xl font-bold text-green-800">Plan #{idx + 1}</h4>
-          <p><strong>Diseases:</strong> {plan.diseases.join(', ')}</p>
-          <p><strong>Goals:</strong> {plan.goals.join(', ')}</p>
-          <p><strong>Duration:</strong> {plan.duration}</p>
+        <div className="space-y-6">
+          {dietPlans.length > 0 ? (
+            dietPlans.map((plan, idx) => (
+              <div key={idx} className="bg-gray-100 p-6 rounded-xl border shadow space-y-4">
+                <h4 className="text-xl font-bold text-green-800">Plan #{idx + 1}</h4>
+                <p><strong>Diseases:</strong> {plan.diseases.join(', ')}</p>
+                <p><strong>Goals:</strong> {plan.goals.join(', ')}</p>
+                <p><strong>Duration:</strong> {plan.duration}</p>
+                <p><strong>Dosha:</strong> {plan.dosha}</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded shadow">
-              <h5 className="font-semibold text-green-700 mb-2">🍀 Foods to Favor</h5>
-              <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                {plan.foodToFavor?.map((item, i) => <li key={i}>{item}</li>)}
-              </ul>
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                  <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded shadow">
+                    <h5 className="font-semibold text-green-700 mb-2">🍀 Foods to Favor</h5>
+                    <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                      {plan.foodToFavor?.map((item, i) => <li key={i}>{item}</li>)}
+                    </ul>
+                  </div>
 
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow">
-              <h5 className="font-semibold text-red-700 mb-2">🚫 Foods to Avoid</h5>
-              <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                {plan.foodToAvoid?.map((item, i) => <li key={i}>{item}</li>)}
-              </ul>
-            </div>
-          </div>
+                  <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow">
+                    <h5 className="font-semibold text-red-700 mb-2">🚫 Foods to Avoid</h5>
+                    <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                      {plan.foodToAvoid?.map((item, i) => <li key={i}>{item}</li>)}
+                    </ul>
+                  </div>
+                </div>
 
-          {plan.recommendations && (
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded shadow mt-4">
-              <h5 className="font-semibold text-blue-700 mb-2">📌 Recommendations</h5>
-              <p className="text-sm text-gray-700">{plan.recommendations}</p>
-            </div>
+                {plan.recommendations && (
+                  <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded shadow mt-4">
+                    <h5 className="font-semibold text-blue-700 mb-2">📌 Recommendations</h5>
+                    <p className="text-sm text-gray-700">{plan.recommendations}</p>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500">No diet plans found.</p>
           )}
         </div>
-      ))
-    ) : (
-      <p className="text-center text-gray-500">No diet plans found.</p>
-    )}
-  </div>
-)}
-
+      )}
 
       <AnimatePresence>
         {showForm && (
@@ -129,7 +130,7 @@ const DietPlanner = () => {
             className="bg-gray-50 p-6 rounded-xl border shadow space-y-6 mt-4"
           >
             <div className="space-y-4">
-              {['diseases', 'goals', 'duration'].map((field) => (
+              {['diseases', 'goals', 'duration', 'dosha'].map((field) => (
                 <div key={field}>
                   <label className="block text-sm font-medium text-gray-700 capitalize">{field}</label>
                   <input
