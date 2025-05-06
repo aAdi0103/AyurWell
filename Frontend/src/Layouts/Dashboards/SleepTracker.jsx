@@ -5,7 +5,8 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  CartesianGrid
 } from "recharts";
 import { axiosInstance } from "../../lib/axios";
 import { useAuth } from "../../Context/AuthContext";
@@ -24,7 +25,6 @@ const aggregateSleepData = (data) => {
     const existing = map.get(formattedDate) || 0;
     map.set(formattedDate, existing + item.hours);
   }
-
   return Array.from(map, ([date, hours]) => ({ date, hours }));
 };
 
@@ -32,7 +32,7 @@ const SleepTracker = () => {
   const [sleepData, setSleepData] = useState([]);
   const { authUser } = useAuth();
   const userId = authUser?._id;
-  console.log(userId)
+
   useEffect(() => {
     if (!userId) return;
 
@@ -41,10 +41,8 @@ const SleepTracker = () => {
         const res = await axiosInstance.get(`/sleep-data/data/${userId}`);
         const aggregated = aggregateSleepData(res.data);
         setSleepData(aggregated);
-        console.log("Aggregated Sleep Data:", aggregated);
       } catch (error) {
         console.error("Failed to fetch sleep data:", error);
-        // Fallback dummy data
         setSleepData([
           { date: "Mon Apr 15", hours: 6 },
           { date: "Tue Apr 16", hours: 7 },
@@ -61,18 +59,41 @@ const SleepTracker = () => {
   }, [userId]);
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow-sm border">
-      <h3 className="font-semibold mb-2">Sleep Tracker</h3>
-      <div className="h-60 w-[30vw] bg-gray-100 rounded-lg flex items-center justify-center">
+    <div className="bg-gradient-to-r from-purple-50 to-indigo-100 p-6 rounded-2xl shadow-lg border">
+      <h3 className="text-2xl font-bold mb-4 text-center text-indigo-700">
+        💤 Sleep Tracker
+      </h3>
+      <div className="h-72 w-full bg-white rounded-xl flex items-center justify-center shadow-inner p-4">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={sleepData}
-            margin={{ top: 20, right: 8, left: -30, bottom: 0 }}
+            margin={{ top: 20, right: 20, left: 0, bottom: 20 }}
           >
-            <XAxis dataKey="date" fontSize={10} angle={-30} textAnchor="end" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="hours" fill="#60A5FA" radius={[3, 3, 0, 0]} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+            <XAxis 
+              dataKey="date"
+              fontSize={12}
+              angle={-30}
+              textAnchor="end"
+              tick={{ fill: "#4B5563", fontWeight: 600 }}
+            />
+            <YAxis
+              label={{ value: "Hours", angle: -90, position: "insideLeft", fill: "#6B7280" }}
+              tick={{ fill: "#4B5563", fontWeight: 600 }}
+            />
+            <Tooltip contentStyle={{ 
+              backgroundColor: "#E0F7FA", 
+              borderRadius: "12px", 
+              border: "none",
+              color: "#4B5563", 
+              fontWeight: 600 
+            }} />
+            <Bar
+              dataKey="hours"
+              fill="#A78BFA"  // Light purple color to fit the theme
+              radius={[8, 8, 0, 0]}
+              barSize={40}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>

@@ -37,7 +37,6 @@ const Sidebar = ({ activeSection, onSectionChange }) => {
       <nav className="flex flex-col">
         {menuItems.map((item, index) => {
           const isActive = activeSection === item.section;
-console.log(`Active Section: ${activeSection}, Current Item: ${item.section}`);
           return (
             <div
               key={index}

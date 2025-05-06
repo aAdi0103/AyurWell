@@ -60,7 +60,7 @@ const UserSchema = new mongoose.Schema({
     }
   ],
 
-  insight: String, // NEW: Kapha/Pitta/Vata insight
+  insight: String,
 
   createdAt: { type: Date, default: Date.now }
 });

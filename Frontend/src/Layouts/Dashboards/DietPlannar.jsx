@@ -47,7 +47,7 @@ const DietPlanner = () => {
       };
 
       // Send the form data to the backend
-      const res = await axios.post('http://192.168.114.13:5000/custom_diet_plan', formattedData);
+      const res = await axios.post('', formattedData);
       console.log(res.data); // Check the response from the server
       alert("Diet plan submitted!");
       setShowForm(false);

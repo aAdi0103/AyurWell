@@ -10,16 +10,17 @@ router.get('/data/:userId', async (req, res) => {
     
     // Find the user by userId
     const user = await User.findById(userId);
+    console.log(user);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     } 
 
     // Extract the doshaProfile, prakriti, and insight from the user object
-    const { doshaProfile, prakriti, insight } = user;
+    const { doshaProfile, prakriti, insight, qualities} = user;
 
     // Return the dosha profile along with prakriti and insight
-    return res.status(200).json({ doshaProfile, prakriti, insight });
+    return res.status(200).json({ doshaProfile, prakriti, insight,qualities });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Server error' });
