@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { fileURLToPath } from 'url';
 import path, { dirname } from "path";
+import cors from 'cors'
 
 // Load .env from the project root
 const __filename = fileURLToPath(import.meta.url);
@@ -19,7 +20,6 @@ import dosha from './Routes/doshaRouter.js'
 import yoga from './Routes/yogaRouter.js'
 const app = express();
 
-import cors from 'cors'
 
 
 if(process.env.NODE_ENV_URL !== "production"){
@@ -29,9 +29,6 @@ if(process.env.NODE_ENV_URL !== "production"){
 }));
 
 }
-
-
-
 
 app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
@@ -46,19 +43,22 @@ app.use("/api/v1/water",water)
 app.use("/api/v1/dosha-profile",dosha)
 app.use("/api/v1/yoga-profile",yoga)
 
+console.log(process.env.NODE_ENV_URL);
 
 if (process.env.NODE_ENV_URL === "production") {
   const frontendPath = path.join(__dirname, "../Frontend/dist");  // Ensure correct case
   app.use(express.static(frontendPath));  // Serve static files correctly
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(frontendPath, "index.html"));  // Ensure correct path
-  });
+  app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(frontendPath, "index.html"));
+});
+
 }
 
 
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   connectDB()
