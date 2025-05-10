@@ -21,10 +21,15 @@ const app = express();
 
 import cors from 'cors'
 
-app.use(cors({
+
+if(process.env.NODE_ENV_URL !== "production"){
+  app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,            
 }));
+
+}
+
 
 
 
@@ -42,6 +47,14 @@ app.use("/api/v1/dosha-profile",dosha)
 app.use("/api/v1/yoga-profile",yoga)
 
 
+if (process.env.NODE_ENV_URL === "production") {
+  const frontendPath = path.join(__dirname, "../Frontend/dist");  // Ensure correct case
+  app.use(express.static(frontendPath));  // Serve static files correctly
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(frontendPath, "index.html"));  // Ensure correct path
+  });
+}
 
 
 
