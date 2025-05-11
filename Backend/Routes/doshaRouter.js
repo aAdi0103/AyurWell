@@ -10,7 +10,6 @@ router.get('/data/:userId', async (req, res) => {
     
     // Find the user by userId
     const user = await User.findById(userId);
-    console.log(user);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });

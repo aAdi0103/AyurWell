@@ -43,7 +43,6 @@ app.use("/api/v1/water",water)
 app.use("/api/v1/dosha-profile",dosha)
 app.use("/api/v1/yoga-profile",yoga)
 
-console.log(process.env.NODE_ENV_URL);
 
 if (process.env.NODE_ENV_URL === "production") {
   const frontendPath = path.join(__dirname, "../Frontend/dist");  // Ensure correct case
