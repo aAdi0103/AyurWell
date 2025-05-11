@@ -48,7 +48,7 @@ if (process.env.NODE_ENV_URL === "production") {
   const frontendPath = path.join(__dirname, "../Frontend/dist");  // Ensure correct case
   app.use(express.static(frontendPath));  // Serve static files correctly
 
-  app.get("/*", (req, res) => {
+  app.get("/", (req, res) => {
   res.sendFile(path.resolve(frontendPath, "index.html"));
 });
 
