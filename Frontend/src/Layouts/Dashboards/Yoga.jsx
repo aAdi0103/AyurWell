@@ -4,6 +4,7 @@ import { axiosInstance } from "../../lib/axios";
 
 const Yoga = () => {
   const [asanas, setAsanas] = useState([]);
+  const [medi, setMedi] = useState([]);
   const [doshaProfile, setDoshaProfile] = useState([]);
   const { authUser } = useAuth();
   const userId = authUser?._id;
@@ -13,24 +14,24 @@ const Yoga = () => {
       try {
         const res = await axiosInstance.get(`/yoga-profile/data/${userId}`);
         console.log(res.data);
-        setAsanas(res.data);
+        setAsanas(res.data.yogaPlans);
+        setMedi(res.data.meditations);
       } catch (error) {
         console.error("API Error:", error);
       }
     };
     fetchYogaData();
     
-     const fetchDoshaProfile = async () => {
-          try {
-            const res = await axiosInstance.get(`/dosha-profile/data/${userId}`);
-             setDoshaProfile(res.data);
-          } catch (error) {
-            console.error("Failed to fetch dosha profile:", error);
-          }
-        };
+    const fetchDoshaProfile = async () => {
+      try {
+        const res = await axiosInstance.get(`/dosha-profile/data/${userId}`);
+        setDoshaProfile(res.data);
+      } catch (error) {
+        console.error("Failed to fetch dosha profile:", error);
+      }
+    };
     
-        fetchDoshaProfile();
-
+    fetchDoshaProfile();
   }, [userId]);
 
   return (
@@ -43,15 +44,40 @@ const Yoga = () => {
       </p>
 
       <div className="flex flex-col md:flex-row md:justify-between mt-2 md:mt-6 gap-6 md:gap-8">
+        
+        {/* Meditation Section */}
         <div className="flex flex-col gap-6 md:w-[320px]">
-          <div className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] h-[95px]">
-            <h2 className="font-semibold text-[17px] sm:text-[18px] mb-1">Meditation</h2>
-            <p className="text-[15px] sm:text-[16px] font-normal leading-tight">
-              Try calming and grounding meditation
-            </p>
-          </div>
+          {medi.length > 0 ? medi.map((meditation) => (
+            <div
+              key={meditation._id}
+              className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] h-auto"
+            >
+              <img
+                src={meditation.image || "https://via.placeholder.com/300x160"}
+                alt={meditation.name}
+                className="w-full h-40 object-center rounded-md mb-4"
+              />
+              <h2 className="font-semibold text-[17px] sm:text-[18px] mb-1">{meditation.name}</h2>
+              <p className="text-[15px] sm:text-[16px] font-normal leading-tight">
+                {meditation.description || "Try calming and grounding meditation."}
+              </p>
+            </div>
+          )) : (
+            <div className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] h-auto">
+              <img
+                src="https://images.unsplash.com/photo-1553531889-56c5d1e6c3b8?auto=format&fit=crop&w=800&q=60"
+                alt="Meditation"
+                className="w-full h-40 object-cover rounded-md mb-4"
+              />
+              <h2 className="font-semibold text-[17px] sm:text-[18px] mb-1">Meditation</h2>
+              <p className="text-[15px] sm:text-[16px] font-normal leading-tight">
+                Try calming and grounding meditation
+              </p>
+            </div>
+          )}
         </div>
 
+        {/* Asanas Section */}
         <div className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] md:w-[500px]">
           <h2 className="font-semibold text-[17px] sm:text-[18px] mb-4">
             Recommended Asanas for {doshaProfile?.prakriti}
@@ -66,6 +92,7 @@ const Yoga = () => {
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );

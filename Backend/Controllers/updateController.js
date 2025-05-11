@@ -39,6 +39,7 @@ export const quizeResponse = async (req, res) => {
   
     const userId = req.user;
     const { data } = req.body;
+    console.log('Received data:', data);
     if (!data) {
       return res.status(400).json({ message: 'No data received in request body.' });
     }
@@ -94,6 +95,7 @@ export const quizeResponse = async (req, res) => {
     user.meditations = [
       {
         technique: meditation?.description || '',
+        image: meditation?.image || '',
         duration: meditation?.duration?.value || 0,
       },
     ];

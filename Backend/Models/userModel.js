@@ -56,6 +56,7 @@ const UserSchema = new mongoose.Schema({
   meditations: [
     {
       technique: String,
+      image:String,
       duration: Number  // in minutes
     }
   ],
