@@ -49,9 +49,10 @@ if (process.env.NODE_ENV_URL === "production") {
   app.use(express.static(frontendPath));
 
   // ⚡ Change "/" to "*" here
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(frontendPath, "index.html"));
-  });
+  app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.resolve(frontendPath, "index.html"));
+});
+
 }
 
 
