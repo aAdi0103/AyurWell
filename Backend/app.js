@@ -45,14 +45,15 @@ app.use("/api/v1/yoga-profile",yoga)
 
 
 if (process.env.NODE_ENV_URL === "production") {
-  const frontendPath = path.join(__dirname, "../Frontend/dist");  // Ensure correct case
-  app.use(express.static(frontendPath));  // Serve static files correctly
+  const frontendPath = path.join(__dirname, "../Frontend/dist");
+  app.use(express.static(frontendPath));
 
-  app.get("/", (req, res) => {
-  res.sendFile(path.resolve(frontendPath, "index.html"));
-});
-
+  // ⚡ Change "/" to "*" here
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(frontendPath, "index.html"));
+  });
 }
+
 
 
 

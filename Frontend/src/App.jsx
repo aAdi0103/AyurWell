@@ -26,10 +26,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/dashboard" />} />
         <Route path="/signup" element={!authUser ? <SignPage /> : <Navigate to="/dashboard" />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        {/* Add other routes like Page3, Yoga if needed */}
-        {/* <Route path="/dashboard/page3" element={<Page3 />} />
-        <Route path="/dashboard/yoga" element={<Yoga />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />  
       </Routes>
     </>
   )
