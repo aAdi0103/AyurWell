@@ -39,7 +39,6 @@ export const quizeResponse = async (req, res) => {
   
     const userId = req.user;
     const { data } = req.body;
-    console.log('Received data:', data);
     if (!data) {
       return res.status(400).json({ message: 'No data received in request body.' });
     }
