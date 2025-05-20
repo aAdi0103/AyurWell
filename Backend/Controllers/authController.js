@@ -129,3 +129,16 @@ export const getDietPlans = async(req,res)=>{
 	  }
 
 }
+
+export const getAllUsers = async (req, res) => {
+	try {
+		const currentUserId = req.user.id; // Assuming req.user is populated via authentication middleware
+
+		const users = await User.find({ _id: { $ne: currentUserId } }).select("-password"); // Exclude current user
+
+		res.status(200).json(users);
+	} catch (error) {
+		console.error("Error fetching users:", error.message);
+		res.status(500).json({ message: "Server error while fetching users." });
+	}
+};

@@ -1,3 +1,4 @@
+import { label } from "framer-motion/client";
 import {
   LayoutDashboard,
   HeartPulse,
@@ -21,6 +22,7 @@ const menuItems = [
   { label: "Community & Challenges", icon: <Users />, section: "community" },
   { label: "Consultation", icon: <Stethoscope />, section: "consultation" },
   { label: "Reports & Insights", icon: <BarChart3 />, section: "reports" }
+  
 ];
 
 const Sidebar = ({ activeSection, onSectionChange }) => {
@@ -37,7 +39,7 @@ const Sidebar = ({ activeSection, onSectionChange }) => {
       <nav className="flex flex-col">
         {menuItems.map((item, index) => {
           const isActive = activeSection === item.section;
-console.log(`Active Section: ${activeSection}, Current Item: ${item.section}`);
+// console.log(`Active Section: ${activeSection}, Current Item: ${item.section}`);
           return (
             <div
               key={index}

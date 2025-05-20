@@ -18,6 +18,7 @@ const DoshaProfile = () => {
     const fetchDoshaProfile = async () => {
       try {
         const res = await axiosInstance.get(`/dosha-profile/data/${userId}`);
+
         console.log("API Response:", res.data);  // Log the entire response to see the structure
 
         const { doshaProfile, prakriti, insight } = res.data;  // Accessing doshaProfile, prakriti, and insight
@@ -49,7 +50,7 @@ const DoshaProfile = () => {
     };
 
     fetchDoshaProfile();
-  }, [userId]);
+  }, []);
 
   console.log("Dosha Data:", doshaData);
 

@@ -41,7 +41,7 @@ const WaterTracker = () => {
         const res = await axiosInstance.get(`/water/data/${userId}`);
         const aggregated = aggregateWaterData(res.data);
         setWaterData(aggregated);
-        console.log("Aggregated water data:", aggregated);
+        // console.log("Aggregated water data:", aggregated);
       } catch (error) {
         console.error("Failed to fetch water data:", error);
         // Fallback dummy data

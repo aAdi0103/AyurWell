@@ -32,7 +32,7 @@ const SleepTracker = () => {
   const [sleepData, setSleepData] = useState([]);
   const { authUser } = useAuth();
   const userId = authUser?._id;
-  console.log(userId)
+  // console.log(userId)
   useEffect(() => {
     if (!userId) return;
 
@@ -41,7 +41,7 @@ const SleepTracker = () => {
         const res = await axiosInstance.get(`/sleep-data/data/${userId}`);
         const aggregated = aggregateSleepData(res.data);
         setSleepData(aggregated);
-        console.log("Aggregated Sleep Data:", aggregated);
+        // console.log("Aggregated Sleep Data:", aggregated);
       } catch (error) {
         console.error("Failed to fetch sleep data:", error);
         // Fallback dummy data

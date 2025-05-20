@@ -16,7 +16,7 @@ function App() {
 
   const { authUser, setAuthUser, isLoading } = useAuth();
   if (isLoading) return null 
-  console.log(authUser)
+  // console.log(authUser)
 
   return (
     <>

@@ -7,6 +7,8 @@ import Yoga from './Dashboards/Yoga'
 import Quiz from './Dashboards/Quiz'
 import DailyTracker from './Dashboards/DailyTracker'
 import Constation from './Dashboards/Constation'
+import Community from './Dashboards/Community'
+
 const DashboardMain = ({ activeSection }) => {
   const renderContent = () => {
     switch (activeSection) {
@@ -18,6 +20,8 @@ const DashboardMain = ({ activeSection }) => {
       case 'yoga': return <Yoga />
       case 'tracker': return <DailyTracker />
       case 'consultation': return <Constation />
+      case 'community':return <Community/>
+      
       default: return <div>Select a section</div>
     }
   }
