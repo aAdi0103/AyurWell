@@ -7,6 +7,8 @@ import DoshaTracker from "./DoshaTracker";
 import Insights from "./Insights";
 import { useAuth } from "../../Context/AuthContext";
 import { toast } from 'react-toastify';
+import { ChevronLeft, ChevronRight,LogOut  } from 'lucide-react';
+
 
 const DashboardMain = () => {
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ const DashboardMain = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % suggestions.length);
-    }, 3000); // change tip every 12 seconds
+    }, 7000);
 
     return () => clearInterval(interval);
   }, []);
@@ -48,42 +50,54 @@ const DashboardMain = () => {
       <div className="flex p-2 items-center justify-between mb-2">
         <div>
           <h1 className="text-2xl font-bold mb-1">Dashboard</h1>
-          <h2 className="text-xl mb-4">Welcome back, Aditya</h2>
-          <button
-            onClick={handleLogout}
-            className="block w-full px-3 py-2 text-left font-bold text-red-600 hover:bg-red-100"
-          >
-            Logout
-          </button>
+          <h2 className="text-xl mb-4">Welcome back, Aditya</h2>         
         </div>
 
-        <div className="bg-black p-3 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2 text-white">Challenge Progress</h3>
-          <p className="text-orange-700">5 Days into No Sugar Challenges</p>
-        </div>
+        <div className="rounded-xl shadow-sm border flex items-center justify-center">
+  <button
+    onClick={handleLogout}
+    className="flex items-center bg-black gap-2 px-4 py-3 text-white hover:text-white hover:bg-red-500 font-bold rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+  >
+    <LogOut size={20} />
+    Logout
+  </button>
+</div>
       </div>
 
       {/* Suggestion Card */}
       <div className="bg-[#fef3e7] border border-[#e0d5c2] rounded-xl p-4 flex items-center justify-between mb-3 transition-all duration-500 ease-in-out">
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-orange-900">Today's Tip</p>
-          <div className="flex items-center gap-3">
-            <div className="bg-orange-200 p-1 rounded-full">🧘</div>
-            <p className="text-gray-800 transition-opacity duration-500">{suggestions[currentIndex]}</p>
-          </div>
-        </div>
-      </div>
+  <div className="flex flex-col gap-2">
+    <p className="font-bold text-orange-900">Today's Tip</p>
+    <div className="flex items-center gap-3">
+      <div className="bg-orange-200 p-2 rounded-full text-2xl">🧘</div>
+      <p className="text-gray-800 transition-opacity duration-500 max-w-">{suggestions[currentIndex]}</p>
+    </div>
+  </div>
+
+  {/* Navigation Icons from lucide-react */}
+  <div className="flex items-center gap-2">
+    <button
+      onClick={() => setCurrentIndex((prev) => (prev - 1 + suggestions.length) % suggestions.length)}
+      className="text-orange-700 hover:text-orange-900 p-2 rounded-full bg-orange-100 hover:bg-orange-300 transition-all duration-300"
+    >
+      <ChevronLeft size={28} />
+    </button>
+    <button
+      onClick={() => setCurrentIndex((prev) => (prev + 1) % suggestions.length)}
+      className="text-orange-700 hover:text-orange-900 p-2 rounded-full bg-orange-100 hover:bg-orange-300 transition-all duration-300"
+    >
+      <ChevronRight size={28} />
+    </button>
+  </div>
+</div>
+
+
 
       <div className="grid lg:grid-cols-2 gap-6">
         <DoshaTracker />
         <SleepTracker />
         <WaterTracker />
         <Insights />
-
-        <div className="bg-white p-4 rounded-xl shadow-sm border">
-          <h3 className="font-semibold mb-2">Community Trends Nearby</h3>
-          <p className="text-sm text-gray-600">Users in your area are reporting heat rashes</p>
-        </div>
       </div>
     </div>
   );

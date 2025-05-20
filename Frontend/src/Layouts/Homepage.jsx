@@ -22,7 +22,7 @@ const Homepage = () => {
 >
   <div className="logo">
     <img src="https://www.pngarts.com/files/12/Ayurveda-Transparent-Images.png" alt="logo" />
-    <h1 className='text-xl font-mono'>AyuPath</h1>
+    <h1 className='text-xl font-mono'>Ayurwell</h1>
   </div>
 
   <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>

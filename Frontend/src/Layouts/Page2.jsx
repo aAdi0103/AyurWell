@@ -1,5 +1,4 @@
-import React from 'react';
-import "./page2.css";
+import "./Page2.css";
 import { motion } from "framer-motion";
 
 const Page2 = () => {

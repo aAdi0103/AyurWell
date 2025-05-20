@@ -1,29 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useAuth } from "../../Context/AuthContext";
+import { axiosInstance } from "../../lib/axios";
 
 const Yoga = () => {
-  const [dosha,setDosha] = useState();
+  const [asanas, setAsanas] = useState([]);
+  const [medi, setMedi] = useState([]);
+  const [doshaProfile, setDoshaProfile] = useState([]);
+  const { authUser } = useAuth();
+  const userId = authUser?._id;
+
   useEffect(() => {
-
-//     const getUserData= async ()=>{
-// const dosha = axios.get();
-// setDosha(dosha);
-
-//     }
     const fetchYogaData = async () => {
-
       try {
-        const res = await axios.post("http://192.168.114.13:5000/get_yoga", {
-          "dosha": "kapha",
-        });
-        console.log(res.data); // You can set this to state to dynamically render data
+        const res = await axiosInstance.get(`/yoga-profile/data/${userId}`);
+        console.log(res.data);
+        setAsanas(res.data.yogaPlans);
+        setMedi(res.data.meditations);
       } catch (error) {
         console.error("API Error:", error);
       }
     };
-
     fetchYogaData();
-  }, []);
+    
+    const fetchDoshaProfile = async () => {
+      try {
+        const res = await axiosInstance.get(`/dosha-profile/data/${userId}`);
+        setDoshaProfile(res.data);
+      } catch (error) {
+        console.error("Failed to fetch dosha profile:", error);
+      }
+    };
+    
+    fetchDoshaProfile();
+  }, [userId]);
 
   return (
     <div className="overflow-y-hidden bg-[#fff9ec] rounded-[15px] border border-[#d9d6cc] sm:p-6 min-h-full max-w-[53rem] flex flex-col gap-6 md:gap-8">
@@ -35,27 +44,55 @@ const Yoga = () => {
       </p>
 
       <div className="flex flex-col md:flex-row md:justify-between mt-2 md:mt-6 gap-6 md:gap-8">
+        
+        {/* Meditation Section */}
         <div className="flex flex-col gap-6 md:w-[320px]">
-          <div className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] h-[95px]">
-            <h2 className="font-semibold text-[17px] sm:text-[18px] mb-1">Meditation</h2>
-            <p className="text-[15px] sm:text-[16px] font-normal leading-tight">
-              Try calming and grounding meditation
-            </p>
+          {medi.length > 0 ? medi.map((meditation) => (
+            <div
+              key={meditation._id}
+              className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] h-auto"
+            >
+              <img
+                src={meditation.image || "https://via.placeholder.com/300x160"}
+                alt={meditation.name}
+                className="w-full h-40 object-center rounded-md mb-4"
+              />
+              <h2 className="font-semibold text-[17px] sm:text-[18px] mb-1">{meditation.name}</h2>
+              <p className="text-[15px] sm:text-[16px] font-normal leading-tight">
+                {meditation.description || "Try calming and grounding meditation."}
+              </p>
+            </div>
+          )) : (
+            <div className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] h-auto">
+              <img
+                src="https://images.unsplash.com/photo-1553531889-56c5d1e6c3b8?auto=format&fit=crop&w=800&q=60"
+                alt="Meditation"
+                className="w-full h-40 object-cover rounded-md mb-4"
+              />
+              <h2 className="font-semibold text-[17px] sm:text-[18px] mb-1">Meditation</h2>
+              <p className="text-[15px] sm:text-[16px] font-normal leading-tight">
+                Try calming and grounding meditation
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Asanas Section */}
+        <div className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] md:w-[500px]">
+          <h2 className="font-semibold text-[17px] sm:text-[18px] mb-4">
+            Recommended Asanas for {doshaProfile?.prakriti}
+          </h2>
+          <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+            {asanas.map((asana) => (
+              <Asana
+                key={asana._id}
+                name={asana.name}
+                src={asana.image || "https://via.placeholder.com/120x80"}
+              />
+            ))}
           </div>
         </div>
 
-        <div className="border border-[#d9d6cc] rounded-lg p-4 text-[#1a2a2a] md:w-[500px]">
-          <h2 className="font-semibold text-[17px] sm:text-[18px] mb-4">
-            Recommended Asanas for Kapha
-          </h2>
-          <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-            {/* Replace these hardcoded asanas with dynamic content from API if needed */}
-            <Asana name="Warrior I" src="https://storage.googleapis.com/a1aa/image/0566897d-66f6-433f-ad37-d9f8952b61f8.jpg" />
-            <Asana name="Bridge Pose" src="https://storage.googleapis.com/a1aa/image/7d1891c1-1d12-4425-62b7-0025905887e4.jpg" />
-            <Asana name="Seated Forward Bend" src="https://storage.googleapis.com/a1aa/image/322957af-3549-4723-4218-5561ddeb81ac.jpg" />
-            <Asana name="Camel Pose" src="https://storage.googleapis.com/a1aa/image/f14c5871-d539-4e09-887b-97631d3d63b2.jpg" />
-          </div>
-        </div>
       </div>
     </div>
   );

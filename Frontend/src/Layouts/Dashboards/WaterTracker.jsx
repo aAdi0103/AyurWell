@@ -5,7 +5,8 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  CartesianGrid
 } from "recharts";
 import { axiosInstance } from "../../lib/axios";
 import { useAuth } from "../../Context/AuthContext";
@@ -24,7 +25,6 @@ const aggregateWaterData = (data) => {
     const existing = map.get(formattedDate) || 0;
     map.set(formattedDate, existing + item.liters);
   }
-
   return Array.from(map, ([date, liters]) => ({ date, liters }));
 };
 
@@ -44,7 +44,6 @@ const WaterTracker = () => {
         // console.log("Aggregated water data:", aggregated);
       } catch (error) {
         console.error("Failed to fetch water data:", error);
-        // Fallback dummy data
         setWaterData([
           { date: "Mon Apr 15", liters: 1.5 },
           { date: "Tue Apr 16", liters: 2 },
@@ -61,18 +60,45 @@ const WaterTracker = () => {
   }, [userId]);
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow-sm border">
-      <h3 className="font-semibold mb-2">Water Tracker</h3>
-      <div className="h-60 w-[30vw] rounded-lg flex items-center justify-center">
+    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-2xl shadow-lg border">
+      <h3 className="text-2xl font-bold text-cyan-600 mb-1 text-center">💧 Water Tracker</h3>
+      <p className="text-sm text-gray-500 mb-4 text-center">Daily Intake (Liters)</p>
+
+      <div className="h-64 w-full rounded-lg flex items-center justify-center">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={waterData}
-            margin={{ top: 20, right: 8, left: -30, bottom: 0 }}
+            margin={{ top: 20, right: 20, left: 0, bottom: 20 }}
           >
-            <XAxis dataKey="date" fontSize={10} angle={-30} textAnchor="end" />
-            <YAxis label={{ value: "Liters", angle: -90, position: "insideLeft" }} />
-            <Tooltip />
-            <Bar dataKey="liters" fill="#34D399" radius={[3, 3, 0, 0]} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E0F2FE" />
+            <XAxis 
+              dataKey="date" 
+              fontSize={11} 
+              angle={-30} 
+              textAnchor="end" 
+              tick={{ fill: "#0E7490", fontWeight: 600 }}
+            />
+            <YAxis 
+              label={{ value: "Liters", angle: -90, position: "insideLeft", fill: "#0891B2" }}
+              tick={{ fill: "#0E7490", fontWeight: 600 }}
+            />
+            <Tooltip 
+              contentStyle={{ 
+                backgroundColor: "#F0FDFA", 
+                borderRadius: "8px", 
+                border: "none",
+                color: "#0E7490",
+                fontWeight: 600 
+              }} 
+              cursor={{ fill: "rgba(14, 116, 144, 0.1)" }}
+            />
+            <Bar 
+              dataKey="liters" 
+              fill="#22D3EE" 
+              radius={[8, 8, 0, 0]} 
+              barSize={40}
+              animationDuration={1000}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>

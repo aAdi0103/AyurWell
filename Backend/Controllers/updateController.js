@@ -15,7 +15,7 @@ export const sleep = async (req, res) => {
       return res.status(404).json({ message: 'User not found' })
     }
 
-    // Push new sleep and water entries
+
     user.sleepDuration.push({
       hours: parseFloat(sleep),
     })
@@ -33,15 +33,12 @@ export const sleep = async (req, res) => {
   }
 }
 
+
 export const quizeResponse = async (req, res) => {
   try {
-    // console.log(req.body);  
-
+  
     const userId = req.user;
-    
-
     const { data } = req.body;
-
     if (!data) {
       return res.status(400).json({ message: 'No data received in request body.' });
     }
@@ -97,6 +94,7 @@ export const quizeResponse = async (req, res) => {
     user.meditations = [
       {
         technique: meditation?.description || '',
+        image: meditation?.image || '',
         duration: meditation?.duration?.value || 0,
       },
     ];
@@ -104,7 +102,6 @@ export const quizeResponse = async (req, res) => {
     user.quizAnswers = quizAnswers;
 
     await user.save();
-
     res.status(200).json({
       message: 'Quiz response and related data updated successfully.',
     });

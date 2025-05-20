@@ -16,10 +16,10 @@ router.get('/data/:userId', async (req, res) => {
     } 
 
     // Extract the doshaProfile, prakriti, and insight from the user object
-    const { doshaProfile, prakriti, insight } = user;
+    const { doshaProfile, prakriti, insight, qualities} = user;
 
     // Return the dosha profile along with prakriti and insight
-    return res.status(200).json({ doshaProfile, prakriti, insight });
+    return res.status(200).json({ doshaProfile, prakriti, insight,qualities });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Server error' });

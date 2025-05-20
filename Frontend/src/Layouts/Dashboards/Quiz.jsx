@@ -42,33 +42,6 @@ const Quiz = () => {
   const [formData, setFormData] = useState({});
   const [ resp ,setResp] = useState({});
 
-  useEffect(() => {
-
-    const updateQuizResponse = async () => {
-      if (!resp) return; // Don't make API call if `resp` is empty or undefined
-
-      try {
-        
-
-        // POST request to /update/quizerepsosen
-        const res = await axiosInstance.post('/update/quizeResponse', {
-          data: resp, // Send `resp` as the request body
-        });
-
-        console.log(res.data+" Quiz response updated successfully");
-        
-       
-      } catch (err) {
-        
-        console.error(err);
-      } 
-    };
-
-    updateQuizResponse();
-
-
-  },[resp])
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -77,22 +50,42 @@ const Quiz = () => {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleFirstAction = async () => {
     console.log("Submitting data:", formData);
     try {
-      const response = await axios.post('http://192.168.114.13:5000/log_data', formData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      const response = await axios.post('https://dosha-analyzer.onrender.com/log_data', formData, {
+        headers: { 'Content-Type': 'application/json' }
       });
       console.log(response.data);
-      
       setResp(response.data);
       alert("Quiz submitted successfully!");
+      return response.data;   // <-- return the data directly
     } catch (error) {
       console.error('Submission error:', error);
       alert("There was an error submitting the quiz.");
+      throw error; // rethrow so catch block of handleSubmit can catch
+    }
+  };
+  
+  const handleSecondAction = async (data) => {
+    if (!data) return;
+    try {
+      const res = await axiosInstance.post('/update/quizeResponse', {
+        data: data,
+      });
+      console.log(res.data + " Quiz response updated successfully");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const firstResult = await handleFirstAction();
+      await handleSecondAction(firstResult);  // Pass data directly
+    } catch (error) {
+      console.error('Error during form submission:', error);
     }
   };
   
@@ -296,6 +289,9 @@ const Quiz = () => {
       </form>
     </div>
   );
+
 };
 
 export default Quiz;
+
+

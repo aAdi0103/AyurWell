@@ -6,13 +6,15 @@ const router = express.Router();
 router.get('/data/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await User.findById(userId).select('sleepDuration');
+    const user = await User.findById(userId).select('yogaPlans meditations');
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
-    res.json(user.sleepDuration);
+res.json({
+  yogaPlans: user.yogaPlans,
+  meditations: user.meditations
+});
   } catch (error) {
     console.error('Error fetching sleep data:', error);
     res.status(500).json({ message: 'Server error' });

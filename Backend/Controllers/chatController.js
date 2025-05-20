@@ -1,71 +1,44 @@
-import Message from "../Models/chatModel";
+import chatModel from '../Models/chatModel.js'
 
 
-
-export const sendMessage = async (req, res) => {
-    try {
-        const { sender, group, content, media } = req.body;
-    
-        // Validate the input data
-        if (!sender || !group || !content) {
-        return res.status(400).json({ message: "All fields are required" });
-        }
-    
-        // Create a new message instance
-        const newMessage = new Message({
-        sender,
-        group,
-        content,
-        media,
-        });
-    
-        // Save the message to the database
-        await newMessage.save();
-    
-        res.status(201).json({ message: "Message sent successfully", newMessage });
-    } catch (error) {
-        console.error("Error sending message:", error.message);
-        res.status(500).json({ message: "Server error" });
-    }
-}
 
 export const getMessages = async (req, res) => {
     try {
         const { groupId } = req.params;
-    
-        // Validate the input data
+        const userId = req.user?.id; // Assuming middleware adds user info to req
+
+        // Validate input
         if (!groupId) {
-        return res.status(400).json({ message: "Group ID is required" });
+            return res.status(400).json({ message: "Group ID is required" });
         }
-    
-        // Fetch messages for the specified group
-        const messages = await Message.find({ group: groupId })
-        .populate("sender", "name email") // Populate sender details
-        .sort({ timestamp: -1 }); // Sort messages by timestamp
-    
-        res.status(200).json({ messages });
+
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized: User ID not found" });
+        }
+
+        // Fetch messages
+        const messages = await chatModel.find({ group: groupId })
+            .populate("sender", "name email _id")
+            .sort({ timestamp: 1 }); // Oldest to newest for chat UI
+
+        // Add direction tag to each message
+        const formattedMessages = messages.map((msg) => ({
+            _id: msg._id,
+            text: msg.content,
+            timestamp: msg.timestamp,
+            sender: {
+                _id: msg.sender._id,
+                name: msg.sender.name,
+                email: msg.sender.email
+            },
+            direction: msg.sender._id.toString() === userId ? "sender" : "receiver"
+        }));
+
+        res.status(200).json({ messages: formattedMessages });
     } catch (error) {
         console.error("Error fetching messages:", error.message);
         res.status(500).json({ message: "Server error" });
     }
-}
+};
 
-export const deleteMessage = async (req, res) => {
-    try {
-        const { messageId } = req.params;
-    
-        // Validate the input data
-        if (!messageId) {
-        return res.status(400).json({ message: "Message ID is required" });
-        }
-    
-        // Delete the message from the database
-        await Message.findByIdAndDelete(messageId);
-    
-        res.status(200).json({ message: "Message deleted successfully" });
-    } catch (error) {
-        console.error("Error deleting message:", error.message);
-        res.status(500).json({ message: "Server error" });
-    }
-}
 

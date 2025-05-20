@@ -8,9 +8,11 @@ export const createGroup = (req, res) => {
         return res.status(400).json({ message: "Group name and description are required." });
     }
 
+
+
     const newGroup = new Group({
-        groupName,
-        groupDescription,
+        name:groupName,
+        description: groupDescription,
         createdBy: req.user._id
     });
 
@@ -24,7 +26,39 @@ export const createGroup = (req, res) => {
         });
 }
 
+export const getAllGroups = async (req, res) => {
+  try {
+    const userId = req.user._id; // assuming user is authenticated and user object is set
+
+    const groups = await Group.find();
+
+    const enrichedGroups = groups.map(group => {
+      const isMember = group.members.includes(userId);
+      return {
+        _id: group._id,
+        name: group.name,
+        description: group.groupDescription,
+        isMember,
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      groups: enrichedGroups,
+    });
+  } catch (e) {
+    console.error('Error fetching groups:', e.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch groups',
+    });
+  }
+};
+
+
+
 export const getGroups = (req, res) => {
+   
     Group.find({ members: req.user._id })
         .populate('members', 'name email')
         .then(groups => {
@@ -54,25 +88,39 @@ export const getGroupDetails = (req, res) => {
         });
 }
 
-export const addMemberToGroup = (req, res) => {
-    const { groupId, userId } = req.body;
+export const addMemberToGroup = async (req, res) => {
+    const userId = req.user._id;
+    const { groupId } = req.body;
 
+    
     if (!groupId || !userId) {
         return res.status(400).json({ message: "Group ID and User ID are required." });
     }
 
-    Group.findByIdAndUpdate(groupId, { $addToSet: { members: userId } }, { new: true })
-        .then(group => {
-            if (!group) {
-                return res.status(404).json({ message: "Group not found." });
-            }
-            res.status(200).json({ message: "User added to group successfully", group });
-        })
-        .catch(err => {
-            console.error("Error adding member to group:", err);
-            res.status(500).json({ message: "Internal server error" });
-        });
-}
+    try {
+        const group = await Group.findById(groupId);
+
+        if (!group) {
+            return res.status(404).json({ message: "Group not found." });
+        }
+
+        // Check if user is already a member
+        const isAlreadyMember = group.members.includes(userId);
+        if (isAlreadyMember) {
+            return res.status(200).json({ message: "User already present in group", group });
+        }
+
+        // Add user if not already a member
+        group.members.push(userId);
+        await group.save();
+
+        res.status(200).json({ message: "User added to group successfully", group });
+    } catch (err) {
+        console.error("Error adding member to group:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 
 export const removeMemberFromGroup = (req, res) => {
     const { groupId, userId } = req.body;

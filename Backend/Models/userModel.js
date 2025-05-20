@@ -56,11 +56,12 @@ const UserSchema = new mongoose.Schema({
   meditations: [
     {
       technique: String,
+      image:String,
       duration: Number  // in minutes
     }
   ],
 
-  insight: String, // NEW: Kapha/Pitta/Vata insight
+  insight: String,
 
   createdAt: { type: Date, default: Date.now }
 });
