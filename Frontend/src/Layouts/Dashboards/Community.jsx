@@ -148,6 +148,42 @@ const Community = () => {
     setNewMessage("");
   };
 
+  const handleLeaveGroup = async (groupId) => {
+  if (!window.confirm("Are you sure you want to delete this group?")) return;
+
+  try {
+    await axiosInstance.get(`/group/leaveGroup/${groupId}`);
+    toast.success("Group left");
+
+    setJoinedGroups(prev => prev.filter(g => g._id !== groupId));
+    
+    if (selectedGroup?._id === groupId) setSelectedGroup(null);
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to delete group");
+  }
+};
+
+const handleDeleteGroup = async (groupId) => {
+  try {
+    const confirmDelete = window.confirm("Are you sure you want to delete this group?");
+    if (!confirmDelete) return;
+
+    const res = await axiosInstance.get(`/group/delete/${groupId}`); // Adjust endpoint
+    if (res.status === 200) {
+      // Update local state
+      setAllGroups(prev => prev.filter(g => g._id !== groupId));
+    }
+  } catch (error) {
+    console.error("Failed to delete group:", error);
+    toast.error("Error deleting group.");
+  }
+};
+
+
+
+
+
   const filteredGroups = allGroups.filter(g =>
     g.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -214,7 +250,17 @@ const Community = () => {
                     <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center mr-3">
                       {group.name.charAt(0).toUpperCase()}
                     </div>
-                    <span className="font-medium">{group.name}</span>
+                    <span className="font-medium flex-1">{group.name}</span>
+
+  <button
+    onClick={() => handleLeaveGroup(group._id)}
+    className="ml-auto text-red-600 hover:text-red-800 text-sm"
+    title="Delete group"
+  >
+    Leave
+  </button>
+
+
                   </div>
                 ))
               )}
@@ -235,37 +281,49 @@ const Community = () => {
 
             {/* All Groups */}
             <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Discover Groups</h3>
-              {filteredGroups.length === 0 ? (
-                <p className="text-gray-500 text-sm">No groups found</p>
-              ) : (
-                filteredGroups.map(group => (
-                  <div 
-                    key={group._id} 
-                    className="flex justify-between items-center p-3 rounded hover:bg-gray-50 transition"
-                  >
-                    <div className="flex items-center">
-                      <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center mr-3">
-                        {group.name.charAt(0).toUpperCase()}
-                      </div>
-                      <span>{group.name}</span>
-                    </div>
-                    {group.isMember ? (
-                      <div className="text-green-600 flex items-center text-sm">
-                        <FaCheck className="mr-1" /> Joined
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => handleAddGroup(group)}
-                        className="text-sm bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition flex items-center"
-                      >
-                        <FaPlus className="mr-1" /> Join
-                      </button>
-                    )}
-                  </div>
-                ))
-              )}
+  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Discover Groups</h3>
+  {filteredGroups.length === 0 ? (
+    <p className="text-gray-500 text-sm">No groups found</p>
+  ) : (
+    filteredGroups.map(group => (
+      <div 
+        key={group._id} 
+        className="flex justify-between items-center p-3 rounded hover:bg-gray-50 transition"
+      >
+        <div className="flex items-center">
+          <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center mr-3">
+            {group.name.charAt(0).toUpperCase()}
+          </div>
+          <span>{group.name}</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {group.isMember ? (
+            <div className="text-green-600 flex items-center text-sm">
+              <FaCheck className="mr-1" /> Joined
             </div>
+          ) : (
+            <button
+              onClick={() => handleAddGroup(group)}
+              className="text-sm bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition flex items-center"
+            >
+              <FaPlus className="mr-1" /> Join
+            </button>
+          )}
+
+          {/* Delete Button */}
+          <button
+            onClick={() => handleDeleteGroup(group._id)}
+            className="text-sm bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-600 transition"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ))
+  )}
+</div>
+
           </div>
         </div>
       )}

@@ -142,4 +142,50 @@ export const removeMemberFromGroup = (req, res) => {
         });
 }
 
+export const leaveGroup = async (req, res) => {
+  try {
+    const { id: groupId } = req.params; // group ID
+    const userId = req.user.id; // assuming user is authenticated and user ID is in req.user
+
+    const group = await Group.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ message: 'Group not found' });
+    }
+
+    // Check if user is part of the group
+    if (!group.members.includes(userId)) {
+      return res.status(400).json({ message: 'You are not a member of this group' });
+    }
+
+    // Remove the user from the group members
+    group.members = group.members.filter(member => member.toString() !== userId);
+
+    await group.save();
+
+    res.status(200).json({ message: 'Left the group successfully', group });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to leave group', error: error.message });
+  }
+};
+
+
+
+
+export const deleteGroup = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedGroup = await Group.findByIdAndDelete(id);
+
+    if (!deletedGroup) {
+      return res.status(404).json({ message: 'Group not found' });
+    }
+
+    res.status(200).json({ message: 'Group deleted successfully', group: deletedGroup });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete group', error: error.message });
+  }
+};
+
 
