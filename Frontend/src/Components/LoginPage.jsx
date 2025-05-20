@@ -8,7 +8,7 @@ const LoginPage = () => {
        <img className="mx-auto w-[20vw] mt-7" src='/NearBuy.svg' alt="NearBuy" />
        </div>
         <h2 className="text-center text-2xl font-bold text-gray-900">
-          Sign in to your account
+          Sign in to your account.
         </h2>
       </div>
 
