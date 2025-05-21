@@ -29,7 +29,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO with improved configuration
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === "production" 
+    origin: process.env.NODE_ENV_URL === "production" 
       ? process.env.FRONTEND_URL 
       : "http://localhost:5173",
     methods: ["GET", "POST"],
@@ -40,7 +40,7 @@ const io = new Server(server, {
 });
 
 // Middleware
-if(process.env.NODE_ENV !== "production") {
+if(process.env.NODE_ENV_URL !== "production") {
   app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
@@ -62,7 +62,7 @@ app.use("/api/v1/dosha-profile", dosha);
 app.use("/api/v1/yoga-profile", yoga);
 
 // Production setup
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV_URL === "production") {
   const frontendPath = path.join(__dirname, "../Frontend/dist");
   app.use(express.static(frontendPath));
   app.get(/^\/(?!api).*/, (req, res) => {
