@@ -72,21 +72,17 @@ if (process.env.NODE_ENV === "production") {
 
 // Socket.IO logic with improved error handling
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
   // Track active rooms for each socket
   const activeRooms = new Set();
 
   socket.on("joinRoom", ({ roomId }) => {
     try {
       if (activeRooms.has(roomId)) {
-        console.log(`User ${socket.id} already in room ${roomId}`);
         return;
       }
       
       socket.join(roomId);
       activeRooms.add(roomId);
-      console.log(`User ${socket.id} joined room ${roomId}`);
     } catch (error) {
       console.error("Error joining room:", error);
     }
@@ -121,7 +117,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
     activeRooms.clear();
   });
 

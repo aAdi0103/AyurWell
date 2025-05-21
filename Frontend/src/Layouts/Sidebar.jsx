@@ -19,7 +19,7 @@ const menuItems = [
   { label: "Diet Planner", icon: <Salad />, section: "diet-planner" },
   { label: "Yoga & Meditation", icon: <PersonStanding />, section: "yoga" },
   { label: "Daily Tracker", icon: <CalendarCheck />, section: "tracker" },
-  { label: "Community & Challenges", icon: <Users />, section: "community" },
+  { label: "Community", icon: <Users />, section: "community" },
   { label: "Consultation", icon: <Stethoscope />, section: "consultation" },
   { label: "Reports & Insights", icon: <BarChart3 />, section: "reports" }
   

@@ -60,17 +60,8 @@ const DietPlanner = () => {
 
   return (
     <div className="p-8 bg-white shadow-xl rounded-2xl max-w-3xl mx-auto">
-      <h2 className="text-3xl font-bold mb-2 text-center text-green-700">Diet Planner</h2>
+      <h2 className="text-3xl font-bold mb-2 text-center text-green-700">Diet Plan</h2>
       <p className="text-center text-gray-600 mb-6">Track your health goals with personalized diet suggestions</p>
-
-      <div className="flex justify-center mb-6">
-        <button
-          className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700"
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? 'Close Form' : 'Create New Plan'}
-        </button>
-      </div>
 
       {/* Display Diet Plans */}
       {!showForm && (
