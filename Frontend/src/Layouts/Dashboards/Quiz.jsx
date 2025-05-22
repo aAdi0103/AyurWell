@@ -18,7 +18,7 @@ const CheckboxGroup = ({ label, name, options, formData, setFormData }) => {
   };
 
   return (
-    <div className="space-y-4 text-[#f7f1e5] ">
+    <div className="space-y-4 text-[#f7f1e5] min-w-[100rem] min-h-full ">
       <p className="font-medium text-lg">{label}</p>
       {options.map((option) => (
         <label key={option} className="flex items-center space-x-2">

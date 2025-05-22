@@ -35,9 +35,9 @@ const Yoga = () => {
   }, [userId]);
 
   return (
-    <div className="overflow-y-hidden bg-[#fff9ec] rounded-[15px] border border-[#d9d6cc] sm:p-6 min-h-full max-w-[53rem] flex flex-col gap-6 md:gap-8">
+    <div className="  bg-[#fff9ec] rounded-[15px] border border-[#d9d6cc] sm:p-6 min-h-screen min-w-screen lg:p-10   flex  flex-col gap-6 md:gap-8 justify-center items-center p-5">
       <h1 className="text-[22px] sm:text-[24px] font-semibold text-[#1a2a2a] leading-tight">
-        Yoga &amp; Meditation
+        Yoga &amp; Meditation 
       </h1>
       <p className="text-[15px] sm:text-[16px] text-[#1a2a2a] max-w-full sm:max-w-[480px] mt-1">
         Integrate yoga and meditation into your Ayurveda practice
@@ -46,7 +46,7 @@ const Yoga = () => {
       <div className="flex flex-col md:flex-row md:justify-between mt-2 md:mt-6 gap-6 md:gap-8">
         
         {/* Meditation Section */}
-        <div className="flex flex-col gap-6 md:w-[320px]">
+        <div className="flex flex-col gap-6 md:max-w-[320px]  ">
           {medi.length > 0 ? medi.map((meditation) => (
             <div
               key={meditation._id}

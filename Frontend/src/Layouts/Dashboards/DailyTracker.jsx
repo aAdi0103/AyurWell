@@ -37,7 +37,7 @@ const DailyTracker = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 max-w-xl mx-auto space-y-6 bg-white shadow-md rounded-xl border mt-10"
+      className="p-6 max-w-xl mx-auto space-y-6 bg-white shadow-md rounded-xl border mt-10 flex items-center justify-center flex-col h-screen  overflow-y-hidden "
     >
       <h2 className="text-2xl font-bold text-center text-gray-800">Daily Health Tracker</h2>
 

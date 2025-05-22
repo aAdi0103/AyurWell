@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Page2 = () => {
   return (
-    <div className='page2 h-full w-full bg-[#FFFEF4]'>
+    <div className='page2 h-full w-full  mt-40 md:mt-0 bg-[#FFFEF4]'>
 
       <div className="bodyType">
 

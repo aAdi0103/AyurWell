@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import io from 'socket.io-client';
-import { FaPlus, FaCheck, FaSearch, FaPaperPlane } from 'react-icons/fa';
-import { BiArrowBack } from 'react-icons/bi';
-import toast from 'react-hot-toast';
-import { axiosInstance } from '../../lib/axios';
+import React, { useState, useEffect, useRef } from "react";
+import io from "socket.io-client";
+import { FaPlus, FaCheck, FaSearch, FaPaperPlane } from "react-icons/fa";
+import { BiArrowBack } from "react-icons/bi";
+import toast from "react-hot-toast";
+import { axiosInstance } from "../../lib/axios";
 
-const SOCKET_SERVER_URL = 'http://localhost:3000';
+const SOCKET_SERVER_URL = "http://localhost:3000";
 let socket;
 
 const Community = () => {
@@ -19,7 +19,7 @@ const Community = () => {
   const [newGroupName, setNewGroupName] = useState("");
   const [isMobileView, setIsMobileView] = useState(false);
   const [showGroupList, setShowGroupList] = useState(true);
-  
+
   const chatContainerRef = useRef(null);
   const user = JSON.parse(localStorage.getItem("authUser"));
 
@@ -29,21 +29,21 @@ const Community = () => {
       setIsMobileView(window.innerWidth < 768);
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Initialize socket
   useEffect(() => {
-    socket = io(SOCKET_SERVER_URL, { transports: ['websocket'] });
+    socket = io(SOCKET_SERVER_URL, { transports: ["websocket"] });
 
-    socket.on('connect', () => {
-      console.log('Connected:', socket.id);
-      socket.emit('join', { userId: user._id });
+    socket.on("connect", () => {
+      console.log("Connected:", socket.id);
+      socket.emit("join", { userId: user._id });
     });
 
-    socket.on('receiveMessage', ({ message }) => {
-      setChats(prev => [...prev, message]);
+    socket.on("receiveMessage", ({ message }) => {
+      setChats((prev) => [...prev, message]);
       scrollToBottom();
     });
 
@@ -55,15 +55,17 @@ const Community = () => {
     const fetchGroups = async () => {
       try {
         const [resJoined, resAll] = await Promise.all([
-          axiosInstance.get('/group/getGroups'),
-          axiosInstance.get('/group/getAllGroups')
+          axiosInstance.get("/group/getGroups"),
+          axiosInstance.get("/group/getAllGroups"),
         ]);
 
         setJoinedGroups(resJoined.data.groups);
-        setAllGroups(resAll.data.groups.map(group => ({
-          ...group,
-          isMember: resJoined.data.groups.some(g => g._id === group._id)
-        })));
+        setAllGroups(
+          resAll.data.groups.map((group) => ({
+            ...group,
+            isMember: resJoined.data.groups.some((g) => g._id === group._id),
+          }))
+        );
       } catch (err) {
         toast.error("Failed to load groups");
         console.error(err);
@@ -76,7 +78,8 @@ const Community = () => {
   // Scroll to bottom of chat
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   };
 
@@ -90,7 +93,7 @@ const Community = () => {
     try {
       const res = await axiosInstance.get(`/chat/getAllMessages/${group._id}`);
       setChats(res.data.messages || []);
-      socket.emit('joinRoom', { roomId: group._id });
+      socket.emit("joinRoom", { roomId: group._id });
     } catch (err) {
       toast.error("Failed to fetch chats");
       console.error(err);
@@ -99,11 +102,13 @@ const Community = () => {
 
   const handleAddGroup = async (group) => {
     try {
-      const res = await axiosInstance.post('/group/addMemberToGroup', { groupId: group._id });
+      const res = await axiosInstance.post("/group/addMemberToGroup", {
+        groupId: group._id,
+      });
       if (res.data.message) {
-        setJoinedGroups(prev => [...prev, group]);
-        setAllGroups(prev =>
-          prev.map(g => g._id === group._id ? { ...g, isMember: true } : g)
+        setJoinedGroups((prev) => [...prev, group]);
+        setAllGroups((prev) =>
+          prev.map((g) => (g._id === group._id ? { ...g, isMember: true } : g))
         );
         toast.success(`Joined "${group.name}"`);
       }
@@ -118,13 +123,13 @@ const Community = () => {
       return;
     }
     try {
-      const res = await axiosInstance.post('/group/createGroup', {
+      const res = await axiosInstance.post("/group/createGroup", {
         groupName: newGroupName,
-        groupDescription: "Ayurvedic Group"
+        groupDescription: "Ayurvedic Group",
       });
       const newGroup = { ...res.data.group, isMember: true };
-      setAllGroups(prev => [...prev, newGroup]);
-      setJoinedGroups(prev => [...prev, newGroup]);
+      setAllGroups((prev) => [...prev, newGroup]);
+      setJoinedGroups((prev) => [...prev, newGroup]);
       setNewGroupName("");
       setShowCreateInput(false);
       toast.success("Group created!");
@@ -141,65 +146,70 @@ const Community = () => {
       id: Date.now(),
       sender: { id: user._id, name: user.name },
       content: newMessage,
-      senderId: user._id
+      senderId: user._id,
     };
 
-    socket.emit('sendMessage', { roomId: selectedGroup._id, message: messageObj });
+    socket.emit("sendMessage", {
+      roomId: selectedGroup._id,
+      message: messageObj,
+    });
     setNewMessage("");
   };
 
   const handleLeaveGroup = async (groupId) => {
-  if (!window.confirm("Are you sure you want to delete this group?")) return;
+    if (!window.confirm("Are you sure you want to delete this group?")) return;
 
-  try {
-    await axiosInstance.get(`/group/leaveGroup/${groupId}`);
-    toast.success("Group left");
+    try {
+      await axiosInstance.get(`/group/leaveGroup/${groupId}`);
+      toast.success("Group left");
 
-    setJoinedGroups(prev => prev.filter(g => g._id !== groupId));
-    
-    if (selectedGroup?._id === groupId) setSelectedGroup(null);
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to delete group");
-  }
-};
+      setJoinedGroups((prev) => prev.filter((g) => g._id !== groupId));
 
-const handleDeleteGroup = async (groupId) => {
-  try {
-    const confirmDelete = window.confirm("Are you sure you want to delete this group?");
-    if (!confirmDelete) return;
-
-    const res = await axiosInstance.get(`/group/delete/${groupId}`); // Adjust endpoint
-    if (res.status === 200) {
-      // Update local state
-      setAllGroups(prev => prev.filter(g => g._id !== groupId));
+      if (selectedGroup?._id === groupId) setSelectedGroup(null);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete group");
     }
-  } catch (error) {
-    console.error("Failed to delete group:", error);
-    toast.error("Error deleting group.");
-  }
-};
+  };
 
+  const handleDeleteGroup = async (groupId) => {
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this group?"
+      );
+      if (!confirmDelete) return;
 
+      const res = await axiosInstance.get(`/group/delete/${groupId}`); // Adjust endpoint
+      if (res.status === 200) {
+        // Update local state
+        setAllGroups((prev) => prev.filter((g) => g._id !== groupId));
+      }
+    } catch (error) {
+      console.error("Failed to delete group:", error);
+      toast.error("Error deleting group.");
+    }
+  };
 
-
-
-  const filteredGroups = allGroups.filter(g =>
+  const filteredGroups = allGroups.filter((g) =>
     g.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50 text-gray-800">
+    <div className="flex flex-col overflow-y-hidden md:flex-row h-screen text-gray-800">
       {/* Sidebar - Group List */}
       {(showGroupList || !isMobileView) && (
-        <div className={`w-full md:w-80 border-r border-gray-200 bg-white ${isMobileView ? 'fixed inset-0 z-50' : ''}`}>
-          <div className="p-4 border-b border-gray-200">
+        <div
+          className={`w-full md:w-80 overflow-y-scroll h-screen border-r border-gray-200 bg-white ${
+            isMobileView ? "fixed inset-0 z-50" : ""
+          }`}
+        >
+          <div className="p-4 border-b border-gray-200 ">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-green-700">Your Groups</h2>
               {isMobileView && (
                 <button
                   onClick={() => setShowGroupList(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 overflow-hidden"
                 >
                   <BiArrowBack size={20} />
                 </button>
@@ -210,7 +220,7 @@ const handleDeleteGroup = async (groupId) => {
               <div className="flex gap-2 mb-4">
                 <input
                   value={newGroupName}
-                  onChange={e => setNewGroupName(e.target.value)}
+                  onChange={(e) => setNewGroupName(e.target.value)}
                   placeholder="Group name"
                   className="flex-1 p-2 border rounded bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
                   autoFocus
@@ -233,17 +243,21 @@ const handleDeleteGroup = async (groupId) => {
 
             {/* Joined Groups */}
             <div className="space-y-2 mb-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Your Groups</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                Your Groups
+              </h3>
               {joinedGroups.length === 0 ? (
-                <p className="text-gray-500 text-sm">You haven't joined any groups yet</p>
+                <p className="text-gray-500 text-sm">
+                  You haven't joined any groups yet
+                </p>
               ) : (
-                joinedGroups.map(group => (
+                joinedGroups.map((group) => (
                   <div
                     key={group._id}
                     onClick={() => handleGroupClick(group)}
                     className={`cursor-pointer p-3 rounded-md flex items-center ${
-                      selectedGroup?._id === group._id 
-                        ? "bg-green-100 text-green-800 border-l-4 border-green-600" 
+                      selectedGroup?._id === group._id
+                        ? "bg-green-100 text-green-800 border-l-4 border-green-600"
                         : "hover:bg-gray-100"
                     } transition`}
                   >
@@ -252,15 +266,13 @@ const handleDeleteGroup = async (groupId) => {
                     </div>
                     <span className="font-medium flex-1">{group.name}</span>
 
-  <button
-    onClick={() => handleLeaveGroup(group._id)}
-    className="ml-auto text-red-600 hover:text-red-800 text-sm"
-    title="Delete group"
-  >
-    Leave
-  </button>
-
-
+                    <button
+                      onClick={() => handleLeaveGroup(group._id)}
+                      className="ml-auto text-red-600 hover:text-red-800 text-sm"
+                      title="Delete group"
+                    >
+                      Leave
+                    </button>
                   </div>
                 ))
               )}
@@ -271,7 +283,7 @@ const handleDeleteGroup = async (groupId) => {
               <div className="relative">
                 <input
                   value={search}
-                  onChange={e => setSearch(e.target.value)}
+                  onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search groups..."
                   className="w-full pl-10 pr-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -281,62 +293,65 @@ const handleDeleteGroup = async (groupId) => {
 
             {/* All Groups */}
             <div className="space-y-2">
-  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Discover Groups</h3>
-  {filteredGroups.length === 0 ? (
-    <p className="text-gray-500 text-sm">No groups found</p>
-  ) : (
-    filteredGroups.map(group => (
-      <div 
-        key={group._id} 
-        className="flex justify-between items-center p-3 rounded hover:bg-gray-50 transition"
-      >
-        <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center mr-3">
-            {group.name.charAt(0).toUpperCase()}
-          </div>
-          <span>{group.name}</span>
-        </div>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                Discover Groups
+              </h3>
+              {filteredGroups.length === 0 ? (
+                <p className="text-gray-500 text-sm">No groups found</p>
+              ) : (
+                filteredGroups.map((group) => (
+                  <div
+                    key={group._id}
+                    className="flex justify-between items-center p-3 rounded hover:bg-gray-50 transition"
+                  >
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center mr-3">
+                        {group.name.charAt(0).toUpperCase()}
+                      </div>
+                      <span>{group.name}</span>
+                    </div>
 
-        <div className="flex items-center gap-2">
-          {group.isMember ? (
-            <div className="text-green-600 flex items-center text-sm">
-              <FaCheck className="mr-1" /> Joined
+                    <div className="flex items-center gap-2">
+                      {group.isMember ? (
+                        <div className="text-green-600 flex items-center text-sm">
+                          <FaCheck className="mr-1" /> Joined
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleAddGroup(group)}
+                          className="text-sm bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition flex items-center"
+                        >
+                          <FaPlus className="mr-1" /> Join
+                        </button>
+                      )}
+
+                      {/* Delete Button */}
+                      <button
+                        onClick={() => handleDeleteGroup(group._id)}
+                        className="text-sm bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-600 transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
-          ) : (
-            <button
-              onClick={() => handleAddGroup(group)}
-              className="text-sm bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition flex items-center"
-            >
-              <FaPlus className="mr-1" /> Join
-            </button>
-          )}
-
-          {/* Delete Button */}
-          <button
-            onClick={() => handleDeleteGroup(group._id)}
-            className="text-sm bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-600 transition"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-    ))
-  )}
-</div>
-
           </div>
         </div>
       )}
 
       {/* Chat Section */}
-      <div className={`flex-1 flex flex-col ${!selectedGroup && 'hidden md:flex'}`}>
+      <div
+        className={`flex-1 flex flex-col overflow-y-hidden   ${!selectedGroup && "hidden md:flex"}`}
+      >
         {selectedGroup ? (
           <>
             <div className="border-b border-gray-200 p-4 bg-white flex items-center">
               {isMobileView && (
-                <button 
+                <button
                   onClick={() => setShowGroupList(true)}
-                  className="mr-3 text-gray-500 hover:text-gray-700"
+                  className="mr-3 z-10 text-gray-500 hover:text-gray-700"
                 >
                   <BiArrowBack size={20} />
                 </button>
@@ -350,7 +365,7 @@ const handleDeleteGroup = async (groupId) => {
               </div>
             </div>
 
-            <div 
+            <div
               ref={chatContainerRef}
               className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
             >
@@ -363,12 +378,18 @@ const handleDeleteGroup = async (groupId) => {
                 chats.map((chat, index) => (
                   <div
                     key={index}
-                    className={`flex ${chat.senderId === user._id ? 'justify-end' : 'justify-start'}`}
+                    className={`flex ${
+                      chat.senderId === user._id
+                        ? "justify-end"
+                        : "justify-start"
+                    }`}
                   >
                     <div
-                      className={`max-w-xs md:max-w-md rounded-lg p-3 ${chat.senderId === user._id 
-                        ? 'bg-green-500 text-white rounded-br-none' 
-                        : 'bg-white border border-gray-200 rounded-bl-none'}`}
+                      className={`max-w-xs md:max-w-md rounded-lg p-3 ${
+                        chat.senderId === user._id
+                          ? "bg-green-500 text-white rounded-br-none"
+                          : "bg-white border border-gray-200 rounded-bl-none"
+                      }`}
                     >
                       {chat.senderId !== user._id && (
                         <div className="font-semibold text-xs text-gray-500 mb-1">
@@ -376,8 +397,17 @@ const handleDeleteGroup = async (groupId) => {
                         </div>
                       )}
                       <div>{chat.text || chat.content}</div>
-                      <div className={`text-xs mt-1 ${chat.senderId === user._id ? 'text-green-100' : 'text-gray-400'}`}>
-                        {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      <div
+                        className={`text-xs mt-1 ${
+                          chat.senderId === user._id
+                            ? "text-green-100"
+                            : "text-gray-400"
+                        }`}
+                      >
+                        {new Date(chat.timestamp).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </div>
                     </div>
                   </div>
@@ -385,11 +415,14 @@ const handleDeleteGroup = async (groupId) => {
               )}
             </div>
 
-            <form onSubmit={handleSend} className="border-t border-gray-200 p-4 bg-white">
+            <form
+              onSubmit={handleSend}
+              className="border-t border-gray-200 p-4 bg-white"
+            >
               <div className="flex">
                 <input
                   value={newMessage}
-                  onChange={e => setNewMessage(e.target.value)}
+                  onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type a message..."
                   className="flex-1 border rounded-l-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -410,7 +443,8 @@ const handleDeleteGroup = async (groupId) => {
             </div>
             <h3 className="text-xl font-medium mb-2">Select a group</h3>
             <p className="text-gray-400 max-w-md">
-              Choose an existing group from the sidebar or create a new one to start chatting with the community.
+              Choose an existing group from the sidebar or create a new one to
+              start chatting with the community.
             </p>
           </div>
         )}

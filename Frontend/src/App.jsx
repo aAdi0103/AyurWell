@@ -9,6 +9,7 @@ import Homepage from './Layouts/Homepage'
 import LoginPage from './Components/LoginForm'
 import SignPage from './Components/SignForm'
 import Dashboard from './Components/Dashboard'
+import Quiz from './Layouts/Dashboards/Quiz'
  
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/dashboard" />} />
         <Route path="/signup" element={!authUser ? <SignPage /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={<Dashboard />} />  
+        <Route path="/quiz" element={!authUser ? <LoginPage/> :<Quiz/>} /> 
       </Routes>
     </>
   )

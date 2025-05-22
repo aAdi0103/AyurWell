@@ -50,7 +50,7 @@ const DashboardMain = () => {
       <div className="flex p-2 items-center justify-between mb-2">
         <div>
           <h1 className="text-2xl font-bold mb-1">Dashboard</h1>
-          <h2 className="text-xl mb-4">Welcome back, Aditya</h2>         
+          <h2 className="text-xl mb-4">Welcome back, {authUser.name}</h2>         
         </div>
 
         <div className="rounded-xl shadow-sm border flex items-center justify-center">

@@ -17,7 +17,7 @@ const Remedies = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="p-6 min-w-[22rem] md:max-w-3xl md:mx-auto">
       <h1 className="text-3xl font-bold mb-4">Remedies & Treatment</h1>
       <input
         type="text"
