@@ -60,6 +60,7 @@ app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/sleep-data", sleep);
 app.use("/api/v1/dosha-profile", dosha);
 app.use("/api/v1/yoga-profile", yoga);
+console.log(process.env.NODE_ENV_URL);
 
 // Production setup
 if (process.env.NODE_ENV_URL === "production") {
@@ -70,7 +71,6 @@ if (process.env.NODE_ENV_URL === "production") {
   });
 }
 
-// Socket.IO logic with improved error handling
 io.on("connection", (socket) => {
   // Track active rooms for each socket
   const activeRooms = new Set();
